@@ -1,7 +1,11 @@
 package com.bodiukh.blog.controller;
 
+import com.bodiukh.blog.service.PostService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -9,5 +13,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class PostController {
 
-//	@RequestMapping(method = RequestMethod.GET)
+    private PostService postService;
+
+    @Autowired(required=true)
+    @Qualifier(value="postService")
+    public void setPostService(PostService ps){
+        this.postService = ps;
+    }
+
+	@RequestMapping(value="posts", method = RequestMethod.GET)
+    public String getPosts(Model model) {
+        model.addAttribute("posts", postService.getPosts());
+        return "main";
+    }
+
 }

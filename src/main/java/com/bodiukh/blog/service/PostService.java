@@ -1,19 +1,24 @@
 package com.bodiukh.blog.service;
 
-import javax.annotation.Resource;
+import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.bodiukh.blog.domain.Post;
 
 /**
  * @author a.bodiukh
  */
-@Service("postService")
-@Transactional
-public class PostService {
+public interface PostService {
 
+    Post getPost(String id);
 
+    List<Post> getPosts();
+
+    void addPost(Post post);
+
+    void updatePost(Post post);
+
+    List<Post> getPostsOfAuthor(String author);
+
+    void removePost(String id);
 
 }
