@@ -35,8 +35,4 @@
 
     <mvc:annotation-driven />
 
-    <bean id="postDAO" class="com.bodiukh.blog.dao.PostDAOImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
 </beans>

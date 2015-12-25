@@ -14,9 +14,18 @@
 <section>
     <h2>Topic</h2>
     <p>First post</p>
+    <div>
+    <#-- @ftlvariable name="posts" type="java.util.List<com.bodiukh.blog.domain.Post>" -->
+       <#if posts?has_content><table><tr></#if>
+        <#list posts as post>
+            <td>${post.author}</td>
+            <td>${post.text}</td>
+        </#list>
+        <#if posts?has_content></tr></table></#if>
+    </div>
 </section>
 <footer>
-    Copyright © Andrii Bodiukh
+    Copyright @ Andrii Bodiukh
 </footer>
 
 </body>
