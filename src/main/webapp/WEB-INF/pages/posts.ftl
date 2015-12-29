@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/resources/css/posts.css">
+    <script src="/resources/js/angular.js"></script>
     <script src="/resources/js/login.js"></script>
 </head>
 <body>
