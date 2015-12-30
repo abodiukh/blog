@@ -1,12 +1,14 @@
-angular.module('login', [])
-.controller('loginController', ['$scope', '$http', function($scope, $http) {
-    this.postForm = function() {
-        var encodeedString = 'username=' + encodeURIComponent(this.inputData.username) +
-                             '&password=' + encodeURIComponent(this.inputData.password);
+var app = angular.module('login', []);
+app.controller('loginController', function($scope, $http) {
+
+    $scope.user = {};
+
+    $scope.postForm = function() {
+
         $http({
             method: 'POST',
-            url: 'login',
-            data: encodeedString,
+            url: 'user/login',
+            data: $scope.user,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         })
         .success(function(data, status, headers, config) {
@@ -16,4 +18,4 @@ angular.module('login', [])
 
         })
     }
-}]);
+});

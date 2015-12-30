@@ -11,15 +11,17 @@
     <div class="intro">
         <h1>Blog</h1>
     </div>
-    <form class="login-form">
-        <h2>Sign in</h2>
-        <label for="inputUsername" class="input-field">Username</label>
-        <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="input-field">Password</label>
-        <input type="text" id="inputPassword" class="form-control" placeholder="Password" required autofocus>
-        <br>
-        <button class="btn btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+    <div id="login" ng-app="login" ng-controller="loginController">
+        <form class="login-form" ng-submit="postForm()">
+            <h2>Sign in</h2>
+            <label for="inputUsername" class="input-field">Username</label>
+            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus ng-model="user.username">
+            <label for="inputPassword" class="input-field">Password</label>
+            <input type="text" id="inputPassword" class="form-control" placeholder="Password" required autofocus ng-model="user.password">
+            <br>
+            <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+    </div>
 </header>
 <nav>
 
