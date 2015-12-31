@@ -7,9 +7,12 @@ app.controller('loginController', function($scope, $http) {
 
         $http({
             method: 'POST',
-            url: 'user/login',
+            url: 'http://localhost:9090/user/login',
             data: $scope.user,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
         })
         .success(function(data, status, headers, config) {
 

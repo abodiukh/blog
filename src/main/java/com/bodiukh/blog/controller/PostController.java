@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/posts")
 public class PostController {
 
     private PostService postService;
@@ -21,7 +21,7 @@ public class PostController {
         this.postService = ps;
     }
 
-	@RequestMapping(value="posts", method = RequestMethod.GET)
+	@RequestMapping(value="/all", method = RequestMethod.GET)
     public String getPosts(Model model) {
         model.addAttribute("posts", postService.getPosts());
         return "posts";
