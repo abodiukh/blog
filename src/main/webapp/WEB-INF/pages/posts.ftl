@@ -13,13 +13,17 @@
     </div>
     <div id="login" ng-app="login" ng-controller="loginController">
         <form class="login-form" ng-submit="postForm()">
-            <h2>Sign in</h2>
-            <label for="inputUsername" class="input-field">Username</label>
-            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus ng-model="user.username">
-            <label for="inputPassword" class="input-field">Password</label>
-            <input type="text" id="inputPassword" class="form-control" placeholder="Password" required autofocus ng-model="user.password">
-            <br>
-            <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+            <div ng-controller="expandController">
+                <a id="signin" ng-click="expand()">Sign in</a>
+                <div ng-show="isExpanded">
+                    <label for="inputUsername" class="input-field">Username</label>
+                    <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus ng-model="user.username">
+                    <label for="inputPassword" class="input-field">Password</label>
+                    <input type="text" id="inputPassword" class="form-control" placeholder="Password" required autofocus ng-model="user.password">
+                    <br>
+                    <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+                </div>
+            </div>
         </form>
     </div>
 </header>
@@ -38,7 +42,7 @@
     </div>
 </section>
 <footer>
-    Copyright @ Andrii Bodiukh
+    <h1>Copyright @ Andrii Bodiukh</h1>
 </footer>
 
 </body>

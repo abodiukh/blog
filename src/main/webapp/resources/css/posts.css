@@ -1,6 +1,6 @@
 html {
     height: 100%;
-    background-image: url(/resources/images/concrete_seamless.png);
+    /*background-image: url(/resources/images/concrete_seamless.png);*/
 }
 
 header {
@@ -12,10 +12,11 @@ header {
 }
 
 body {
-    width: 70%;
+    width: 100%;
+    margin-top: 0;
     margin-left: auto;
     margin-right: auto;
-    height: 87%;
+    height: 150%;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
@@ -26,20 +27,26 @@ nav {
     width: 15%;
     height: 100%;
     float: left;
-    background-image: url(/resources/images/congruent_pentagon.png);
+    /*background-image: url(/resources/images/congruent_pentagon.png);*/
 }
 
 section {
     width: 85%;
     float: left;
     height: 100%;
-    background-image: url(/resources/images/crossword.png);
+    /*background-image: url(/resources/images/crossword.png);*/
 }
 
 footer {
     color: powderblue;
     clear: both;
     background-image: url(/resources/images/footer_lodyas.png);
+    margin-bottom: 0;
+}
+
+footer h1 {
+    text-transform: none;
+    text-align: center;
 }
 
 .intro {
@@ -50,17 +57,13 @@ footer {
 .intro h1 {
     float: left;
     width: 20%;
-    margin-left: 5%;
+    padding-left: 5%;
 }
 
 header form {
     display: block;
     float: left;
     width: 15%;
-}
-
-form h2 {
-    font-size: 20px;
 }
 
 label {
@@ -71,10 +74,12 @@ label {
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    font-family: inherit;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
     font-weight: 500;
     line-height: 1.1;
-    color: inherit;
+    text-transform: uppercase;
+    color: white;
 }
 
 .input-field {

@@ -22,3 +22,13 @@ app.controller('loginController', function($scope, $http) {
         })
     }
 });
+
+app.controller('expandController', function($scope) {
+
+    this.isExpanded = false;
+
+    $scope.expand = function() {
+        $scope.isExpanded = !$scope.isExpanded;
+    }
+
+});
