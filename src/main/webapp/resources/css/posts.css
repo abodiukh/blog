@@ -7,6 +7,7 @@ header {
     display: block;
     overflow: auto;
     color: powderblue;
+    height: 5%;
     /*text-align: center;*/
     background-image: url(/resources/images/footer_lodyas.png);
 }
@@ -17,9 +18,11 @@ body {
     margin-left: auto;
     margin-right: auto;
     height: 150%;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
-    line-height: 1.42857143;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.1;
+    color: black;
 }
 
 nav {
@@ -60,10 +63,24 @@ footer h1 {
     padding-left: 5%;
 }
 
-header form {
+header form h1 {
     display: block;
     float: left;
     width: 15%;
+}
+
+#login-box {
+    background: #EBEBEB none repeat scroll 0 0;
+    height: 100px;
+    position: absolute;
+    width: 100%;
+    top: 7%;
+    z-index: 5000;
+}
+
+#inner-box {
+    padding-left: 30%;
+    padding-right: 30%;
 }
 
 label {
@@ -74,12 +91,9 @@ label {
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.1;
     text-transform: uppercase;
     color: white;
+    font-size: 13px;
 }
 
 .input-field {
