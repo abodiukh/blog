@@ -29,24 +29,27 @@
         </form>
     </div>
 </header>
-<nav>
-
-</nav>
-<section>
-    <div>
-    <#-- @ftlvariable name="posts" type="java.util.List<com.bodiukh.blog.domain.Post>" -->
-       <#if posts?has_content><table><tr></#if>
+<div id="main">
+    <nav></nav>
+    <section>
+        <#if posts?has_content><div id="posts"></#if>
+        <#-- @ftlvariable name="posts" type="java.util.List<com.bodiukh.blog.domain.Post>" -->
         <#list posts as post>
-            <td>${post.author}</td>
-            <td>${post.text}</td>
+        <article>
+          <div class="post">
+            <p class="date">May 22, 2015</p>
+            <h1><a href="/blog/designing-in-the-build/">Designing in the Build</a></h1>
+            <p>${post.text}</p>
+            <p><a href="/blog/designing-in-the-build/" class="button">Read more</a></p>
+          </div>
+        </article>
         </#list>
-        <#if posts?has_content></tr></table></#if>
-    </div>
-</section>
+        <#if posts?has_content></div</#if>
+    </section>
+</div>
 <footer>
     <h1>Copyright @ Andrii Bodiukh</h1>
 </footer>
-
 </body>
 </html>
 
