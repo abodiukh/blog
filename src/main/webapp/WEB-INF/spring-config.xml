@@ -4,6 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!-- first, define your individual @Configuration classes as beans -->
+    <!--<bean class="com.bodiukh.blog.config.SecurityConfig"/>-->
 
+    <!-- be sure to include the JavaConfig bean post-processor -->
+    <!--<bean class="org.springframework.config.java.process.ConfigurationPostProcessor"/>-->
 
 </beans>

@@ -24,6 +24,7 @@
     <property name="annotatedClasses">
       <list>
         <value>com.bodiukh.blog.domain.Post</value>
+        <value>com.bodiukh.blog.domain.User</value>
       </list>
     </property>
     <property name="packagesToScan">
