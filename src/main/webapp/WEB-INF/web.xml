@@ -4,37 +4,26 @@
 	       http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
-	<display-name>Blog</display-name>
+  <display-name>Blog</display-name>
 
   <servlet>
-		<servlet-name>post</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-	</servlet>
-
-  <servlet-mapping>
-    <servlet-name>post</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>rest</servlet-name>
+    <servlet-name>blog</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>/WEB-INF/post-servlet.xml</param-value>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/spring-config.xml</param-value>
     </init-param>
-    <load-on-startup>2</load-on-startup>
+    <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>rest</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <servlet-name>blog</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/post-servlet.xml</param-value>
+    <param-value>/WEB-INF/spring-config.xml</param-value>
   </context-param>
 
 </web-app>

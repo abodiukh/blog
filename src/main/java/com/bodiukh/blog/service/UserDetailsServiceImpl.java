@@ -9,12 +9,14 @@ import com.bodiukh.blog.dao.UserDAO;
 import com.bodiukh.blog.domain.UserRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    @Qualifier("encoder")
+    private PasswordEncoder encoder;
 
     @Transactional(readOnly = true)
     @Override
@@ -42,7 +48,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private User buildUserForAuthentication(com.bodiukh.blog.domain.User user,
                                             List<GrantedAuthority> authorities) {
-        return new User(user.getUsername(), user.getPassword(),
+        String encodedPassword = encoder.encode(user.getPassword());
+        return new User(user.getUsername(), encodedPassword,
                 user.isEnabled(), true, true, true, authorities);
     }
 

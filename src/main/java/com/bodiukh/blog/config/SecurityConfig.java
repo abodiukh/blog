@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * @author a.bodiukh
  */
-@Configuration
+//@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -30,13 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests().antMatchers("/admin/**")
-                .access("hasRole('ROLE_ADMIN')").and().formLogin()
-                .loginPage("/login").failureUrl("/login?error")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .and().logout().logoutSuccessUrl("/login?logout")
+        http.authorizeRequests().antMatchers("/posts/all", "/user/login").permitAll()
+                .antMatchers("/posts/1")
+                .access("hasRole('ADMIN')")
                 .and().csrf()
                 .and().exceptionHandling().accessDeniedPage("/403");
     }
