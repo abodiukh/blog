@@ -3,9 +3,10 @@ package com.bodiukh.blog.dao;
 import com.bodiukh.blog.domain.User;
 
 /**
- * @author andrii.bodiukh
+ * @author a.bodiukh
  */
 public interface UserDAO {
 
-    public User findByUsername(final String username);
+    User findByUsername(String username);
+
 }

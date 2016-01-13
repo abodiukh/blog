@@ -33,7 +33,7 @@ public class UserController {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    @Qualifier("passwordEncoder")
+    @Qualifier("encoder")
     private PasswordEncoder encoder;
 
     private AuthenticationManagerImpl authenticationManager = new AuthenticationManagerImpl();
