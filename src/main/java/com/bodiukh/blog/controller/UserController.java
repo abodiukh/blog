@@ -1,5 +1,6 @@
 package com.bodiukh.blog.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 
 import com.bodiukh.blog.domain.User;
@@ -16,6 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,10 +42,11 @@ public class UserController {
 
     @Consumes("application/json")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<User> login(@RequestBody User user) {
-        Authentication request = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-        Authentication result = authenticationManager.authenticate(request);
-        SecurityContextHolder.getContext().setAuthentication(result);
+    public ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+        token.setDetails(new WebAuthenticationDetails(request));
+        Authentication authentication = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         User resultUser = new User(user.getUsername(), user.getPassword());
         return new ResponseEntity<>(resultUser, HttpStatus.OK);
     }

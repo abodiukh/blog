@@ -12,11 +12,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 /**
  * @author a.bodiukh
  */
-//@Configuration
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -32,10 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/posts/all", "/user/login").permitAll()
-                .antMatchers("/posts/1")
-                .access("hasRole('ADMIN')")
-                .and().csrf()
-                .and().exceptionHandling().accessDeniedPage("/403");
+                .and().csrf().disable()
+                .exceptionHandling().accessDeniedPage("/403").and().httpBasic().authenticationEntryPoint(entryPoint());
     }
 
     @Bean
@@ -43,6 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("encoder")
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    public BasicAuthenticationEntryPoint entryPoint() {
+        BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
+        basicAuthEntryPoint.setRealmName("Realm");
+        return basicAuthEntryPoint;
     }
 
 }

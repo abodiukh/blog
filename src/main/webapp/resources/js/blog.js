@@ -1,4 +1,4 @@
-var app = angular.module('login', []);
+var app = angular.module('blog', []);
 app.controller('loginController', function($scope, $http) {
 
     $scope.user = {};
