@@ -45,6 +45,8 @@ section {
 #content {
     margin-left: 15%;
     width: 50%;
+    font-weight: 100;
+    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .post {
@@ -53,8 +55,6 @@ section {
     border: 0;
     font-size: 17px;
     line-height: 1.5;
-    font-weight: 100;
-    font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
     color: #818181;
     vertical-align: baseline;
 }
@@ -72,6 +72,7 @@ p.date {
     text-transform: uppercase;
     font-size: 13px;
     line-height: 1;
+    color: #818181;
 }
 
 h1 a {
@@ -182,13 +183,19 @@ label {
 
 .btn-block {
     display: block;
+    width: 80%;
+}
+
+.btn-inline {
+    display: inline-block;
+    width: 15%;
+    margin-left: 3%;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
-    width: 80%;
+    background-color: #222;
+    border-color: #100;
 }
 
 .btn {
@@ -205,4 +212,21 @@ label {
     background-image: none;
     border: 1px solid transparent;
     border-radius: 4px;
+}
+
+.button-list {
+    margin-bottom: 30px;
+}
+
+textarea {
+    border: 1px solid #818181;;
+    border-radius: 5px;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #818181;
+    vertical-align: baseline;
+    width: 100%;
+    min-height: 300px;
+    text-align: left;
 }

@@ -7,9 +7,7 @@
         <#nested>
     </section>
 </div>
-<footer>
-    <h1>Copyright @ Andrii Bodiukh</h1>
-</footer>
+    <#include "footer.ftl">
 </body>
 </#macro>
 

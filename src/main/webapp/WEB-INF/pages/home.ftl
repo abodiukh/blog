@@ -1,8 +1,8 @@
-<#include "page.ftl">
+<#include "main.ftl">
 <#-- @ftlvariable name="posts" type="java.util.List<com.bodiukh.blog.domain.Post>" -->
 <#--<#assign posts=posts>-->
 
-<@displayPage>
+<@renderPage>
 <div id="content">
 <#if posts?has_content>
 <#list posts as post>
@@ -17,4 +17,4 @@
 </#list>
 </#if>
 </div>
-</@displayPage>
+</@renderPage>
