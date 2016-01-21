@@ -21,8 +21,8 @@ public class UserDAOImpl implements UserDAO {
     @SuppressWarnings("unchecked")
     public User findByUsername(final String username) {
         List<User> users = sessionFactory.getCurrentSession()
-                .createQuery("from User where username=?")
-                .setParameter(0, username)
+                .createQuery("from User where username=:username")
+                .setParameter("username", username)
                 .list();
         return users.get(0);
     }

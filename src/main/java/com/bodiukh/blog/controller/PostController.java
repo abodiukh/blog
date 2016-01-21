@@ -25,7 +25,7 @@ public class PostController {
     @RequestMapping(path = "/all", method = RequestMethod.GET)
     public String getPosts(Model model) {
         model.addAttribute("posts", postService.getPosts());
-        return "posts";
+        return "home";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
