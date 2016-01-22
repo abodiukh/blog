@@ -32,3 +32,18 @@ app.controller('expandController', function($scope) {
     }
 
 });
+
+app.controller('buttonManager', function($scope) {
+
+    this.editMode = false;
+
+    $scope.turnEditMode = function() {
+        $scope.editMode = true;
+    };
+
+    $scope.turnPreviewMode = function() {
+        $scope.editMode = false;
+    }
+
+});
+

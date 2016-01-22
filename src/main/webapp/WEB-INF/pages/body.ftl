@@ -7,7 +7,7 @@
         <#nested>
     </section>
 </div>
-    <#include "footer.ftl">
+<#include "footer.ftl">
 </body>
 </#macro>
 
