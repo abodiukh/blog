@@ -2,10 +2,11 @@
 
 <#macro renderPage>
 <!DOCTYPE html>
-<html>
+<html ng-app="blog">
 <head>
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <script src="/resources/js/angular.js"></script>
+    <script src="/resources/js/angular-sanitize.js"></script>
     <script src="/resources/js/blog.js"></script>
     <#--<script src="/resources/tinymce/tinymce.min.js"></script>-->
     <#--<script src="/resources/js/tinymce.conf.js"></script>-->

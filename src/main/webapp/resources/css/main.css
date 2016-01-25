@@ -181,6 +181,30 @@ label {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
+#post-box #inner-box {
+    width: 95%;
+}
+
+.add-form span {
+    float: right;
+    position: relative;
+    display: block;
+}
+
+.plus-icon {
+    background: url(/resources/images/plus.png) no-repeat center;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+}
+
+.minus-icon {
+    background: url(/resources/images/minus.png) no-repeat center;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+}
+
 .btn-block {
     display: block;
     width: 80%;
@@ -188,13 +212,13 @@ label {
 
 .btn-secondary {
     display: inline-block;
-    width: 12%;
-    margin-left: 3%;
+    width: 15%;
+    margin-left: 1%;
     font-weight: 500;
-    padding: 0 20px;
+    padding: 0 8px;
     border-radius: 18px;
     height: 24px;
-    line-height: 24px;
+    line-height: 20px;
     border: 1px solid #e2e2e2;
     font-size: 13px;
     background-color: #ffffff;

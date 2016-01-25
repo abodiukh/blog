@@ -32,8 +32,8 @@ public class AppTests {
 
     @Test
     public void simple() throws Exception {
-        mockMvc.perform(get("/posts/all"))
+        mockMvc.perform(get("/post/all"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("home"));
+                .andExpect(view().name("common"));
     }
 }

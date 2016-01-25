@@ -21,4 +21,5 @@ public interface PostService {
 
     void removePost(String id);
 
+    void publish(String id);
 }

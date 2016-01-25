@@ -33,7 +33,7 @@ public class PostDAOImpl implements PostDAO {
     @Override
     public List<Post> getPosts() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Post").list();
+        return session.createQuery("from Post p, User u where p,author=u.user_id").list();
     }
 
     @SuppressWarnings("unchecked")
@@ -63,5 +63,10 @@ public class PostDAOImpl implements PostDAO {
         if (post != null) {
             session.delete(post);
         }
+    }
+
+    @Override
+    public void publish(String id) {
+        
     }
 }

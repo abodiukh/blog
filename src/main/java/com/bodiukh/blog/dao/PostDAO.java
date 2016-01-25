@@ -20,4 +20,6 @@ public interface PostDAO {
     List<Post> getPostsOfAuthor(String author);
 
     void removePost(String id);
+
+    void publish(String id);
 }

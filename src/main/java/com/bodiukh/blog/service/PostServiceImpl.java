@@ -55,4 +55,9 @@ public class PostServiceImpl implements PostService {
     public void removePost(final String id) {
         postDAO.removePost(id);
     }
+
+    @Override
+    public void publish(String id) {
+        postDAO.publish(id);
+    }
 }
