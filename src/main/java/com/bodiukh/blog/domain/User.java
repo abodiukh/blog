@@ -1,5 +1,7 @@
 package com.bodiukh.blog.domain;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -17,14 +20,25 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", unique = true, nullable = false, length = 45)
     private Integer userId;
 
+    @OneToMany(mappedBy = "author")
+    private Set<Post> posts;
+
+    @Column(name = "username", unique = true, nullable = false, length = 45)
     private String username;
 
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
 
+    @Column(name = "enabled")
     private boolean enabled;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_role_id")
     private UserRole userRole;
 
     public User() {
@@ -35,9 +49,6 @@ public class User {
         this.password = password;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", unique = true, nullable = false, length = 45)
     public Integer getUserId() {
         return userId;
     }
@@ -46,7 +57,14 @@ public class User {
         this.userId = userId;
     }
 
-    @Column(name = "username", unique = true, nullable = false, length = 45)
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(final Set<Post> posts) {
+        this.posts = posts;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -55,7 +73,6 @@ public class User {
         this.username = username;
     }
 
-    @Column(name = "password", nullable = false, length = 60)
     public String getPassword() {
         return password;
     }
@@ -64,7 +81,6 @@ public class User {
         this.password = password;
     }
 
-    @Column(name = "enabled")
     public boolean isEnabled() {
         return enabled;
     }
@@ -73,8 +89,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_role_id")
     public UserRole getUserRole() {
         return userRole;
     }

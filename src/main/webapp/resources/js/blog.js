@@ -92,8 +92,11 @@ app.controller('postCreator', function($scope, $element, $location, $http) {
 
         $scope.title = "";
         $scope.post = {
-            author: 0,
-            title: $scope.title
+            id: 0,
+            author: {
+                userId: "0"
+            },
+            title: "Some text"
         };
 
         $http({

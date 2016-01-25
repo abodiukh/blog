@@ -33,7 +33,7 @@ public class PostDAOImpl implements PostDAO {
     @Override
     public List<Post> getPosts() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Post p, User u where p,author=u.user_id").list();
+        return session.createQuery("from Post").list();
     }
 
     @SuppressWarnings("unchecked")
@@ -53,7 +53,7 @@ public class PostDAOImpl implements PostDAO {
     @Override
     public List<Post> getPostsOfAuthor(final String author) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Post as p where p.author=:author").setParameter("author", author).list();
+        return session.createQuery("from Post as p where p.author.username=:author").setParameter("author", author).list();
     }
 
     @Override

@@ -18,7 +18,6 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @Column(name = "author")
     private User author;
 
     @Column(name="title")

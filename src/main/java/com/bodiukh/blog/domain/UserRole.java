@@ -14,13 +14,17 @@ import javax.persistence.Table;
 @Table(name = "user_roles")
 public class UserRole {
 
-    private Integer userRoleId;
-    private String role;
-    private String rights;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_role_id", unique = true, nullable = false)
+    private Integer userRoleId;
+
+    @Column(name = "role", unique = true, nullable = false)
+    private String role;
+
+    @Column(name = "rights")
+    private String rights;
+
     public Integer getUserRoleId() {
         return userRoleId;
     }
@@ -29,7 +33,6 @@ public class UserRole {
         this.userRoleId = userRoleId;
     }
 
-    @Column(name = "role", unique = true, nullable = false)
     public String getRole() {
         return role;
     }
@@ -38,7 +41,6 @@ public class UserRole {
         this.role = role;
     }
 
-    @Column(name = "rights")
     public String getRights() {
         return rights;
     }
