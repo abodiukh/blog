@@ -3,14 +3,14 @@
 
 <@renderPage>
 <div id="content" ng-controller="postCreator">
-    <form class="add-form" ng-submit="addPost()">
-        <span class="plus-icon" ng-click="expand()" ng-show="plusIcon"></span>
-        <span class="minus-icon" ng-click="expand()" ng-show="minusIcon"></span>
+    <form name="form" class="add-form" ng-submit="addPost()">
+        <i class="plus-icon" ng-click="expand()" ng-show="plusIcon"></i>
+        <i class="minus-icon" ng-click="expand()" ng-show="minusIcon"></i>
         <div id="post-box" ng-show="isExpanded">
             <div id="inner-box">
                 <label for="inputTitle" class="input-field">Title</label>
-                <input type="text" id="inputTitle" class="form-control"
-                       placeholder="Title" required autofocus ng-model="title">
+                <input type="text" name="input" id="inputTitle" class="form-control"
+                       placeholder="Title" required autofocus ng-model="post.title">
                 <button class="btn-secondary" type="submit">Add</button>
             </div>
         </div>
@@ -18,12 +18,14 @@
 <#if posts?has_content>
 <#list posts as post>
     <article>
+        <#if post.published>
         <div class="post">
             <p class="date">May 22, 2015</p>
-            <h1><a href="/post/${post.id}">Designing in the Build</a></h1>
-            <p>${post.text}</p>
+            <h1><a href="/post/${post.id}">${post.title}</a></h1>
+            <p><#if post.text?has_content>${post.text}</#if></p>
             <p><a href="/post/${post.id}" class="button">Read more</a></p>
         </div>
+        </#if>
     </article>
 </#list>
 </#if>

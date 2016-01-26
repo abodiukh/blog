@@ -11,12 +11,15 @@
             <button id="unpublish" class="btn-secondary" type="submit">Unpublish</button>
             <button id="delete" class="btn-secondary" type="submit">Delete</button>
         </div>
-        <p class="date">May 22, 2015</p>
         <div class="post" ng-show="viewMode">
-            ${post.text}
+            <h1><a href="/post/${post.id}">${post.title}</a></h1>
+            <p><#if post.text?has_content>${post.text}</#if></p>
         </div>
         <div class="edit-post" ng-show="editMode">
-            <textarea ng-model="textModel"></textarea>
+            <label for="inputTitle" class="input-field">Title</label>
+            <input type="text" name="input" id="inputTitle" class="form-control"
+                   placeholder="Title" required autofocus ng-model="postData.title">
+            <textarea ng-model="postData.text"></textarea>
         </div>
     </div>
 </@renderPage>

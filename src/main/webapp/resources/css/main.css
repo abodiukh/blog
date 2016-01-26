@@ -6,7 +6,7 @@ html {
 header {
     display: block;
     height: 25px;
-    background-image: url(/resources/images/footer_lodyas.png);
+    background-image: url(/resources/images/background.png);
 }
 
 body {
@@ -14,7 +14,8 @@ body {
     margin-top: 0;
     margin-left: auto;
     margin-right: auto;
-    height: 150%;
+    min-height: 97%;
+    height: auto;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
     font-weight: 500;
@@ -32,14 +33,13 @@ nav {
     width: 15%;
     height: 100%;
     float: left;
-    /*background-image: url(/resources/images/congruent_pentagon.png);*/
 }
 
 section {
     width: 85%;
     float: left;
     height: 100%;
-    /*background-image: url(/resources/images/crossword.png);*/
+    margin-left: 15%;
 }
 
 #content {
@@ -101,10 +101,12 @@ a {
 }
 
 footer {
-    color: powderblue;
-    clear: both;
-    background-image: url(/resources/images/footer_lodyas.png);
-    margin-bottom: 0;
+    position: fixed;
+    margin: 0 auto;
+    background-image: url(/resources/images/background.png);
+    bottom: 0;
+    width: 100%;
+    height: 2%;
 }
 
 footer h1 {
@@ -182,10 +184,18 @@ label {
 }
 
 #post-box #inner-box {
-    width: 95%;
+    width: 100%;
 }
 
-.add-form span {
+.add-form {
+    padding-bottom: 40px;
+}
+
+.add-form .btn-secondary {
+    width: 65px;
+}
+
+.add-form i {
     float: right;
     position: relative;
     display: block;
@@ -212,12 +222,12 @@ label {
 
 .btn-secondary {
     display: inline-block;
-    width: 15%;
+    width: 80px;
     margin-left: 1%;
     font-weight: 500;
     padding: 0 8px;
     border-radius: 18px;
-    height: 24px;
+    height: 22px;
     line-height: 20px;
     border: 1px solid #e2e2e2;
     font-size: 13px;
@@ -254,6 +264,11 @@ label {
     margin-bottom: 30px;
 }
 
+.button-list .btn-secondary {
+    margin-right: 5%;
+    width: 10%;
+}
+
 textarea {
     border: 1px solid #818181;;
     border-radius: 5px;
@@ -265,4 +280,8 @@ textarea {
     width: 100%;
     min-height: 300px;
     text-align: left;
+}
+
+.edit-post .form-control {
+    width: 100%;
 }
