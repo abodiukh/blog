@@ -265,8 +265,9 @@ label {
 }
 
 .button-list .btn-secondary {
-    margin-right: 5%;
-    width: 10%;
+    margin-right: 3%;
+    width: 12%;
+    font-size: 90%;
 }
 
 textarea {

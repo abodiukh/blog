@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Date;
+
 @Controller
 @RequestMapping("/post")
 public class PostController {
@@ -51,9 +53,12 @@ public class PostController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updatePost(@PathVariable("id") String id, @RequestBody Post post, Model model) {
+    public String updatePost(@PathVariable("id") String id, @RequestBody PostDTO postDTO, Model model) {
+        Post post = postService.getPost(id);
+        post.setTitle(postDTO.getTitle());
+        post.setTitle(postDTO.getText());
         postService.updatePost(post);
-        model.addAttribute("post", postService.getPost(id));
+        model.addAttribute("post", post);
         return "post";
     }
 
@@ -69,7 +74,27 @@ public class PostController {
 
     @RequestMapping(value = "/{id}/publish", method = RequestMethod.POST)
     public String publishPost(@PathVariable("id") String id, Model model) {
+        Post post = postService.getPost(id);
+        post.setPublished(true);
+        post.setDate(new Date());
+        postService.updatePost(post);
+        model.addAttribute("post", post);
         return "post";
+    }
+
+    @RequestMapping(value = "/{id}/unpublish", method = RequestMethod.POST)
+    public String unpublishPost(@PathVariable("id") String id, Model model) {
+        Post post = postService.getPost(id);
+        post.setPublished(false);
+        postService.updatePost(post);
+        model.addAttribute("post", post);
+        return "post";
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deletePost(@PathVariable("id") String id, Model model) {
+        postService.removePost(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

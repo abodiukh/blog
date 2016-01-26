@@ -49,7 +49,6 @@ app.controller('buttonManager', function($scope, $element, $location, $http) {
     };
 
     $scope.id = location.pathname.split('/')[2];
-    $scope.author = "Andrii";
 
     $scope.turnEditMode = function() {
         $scope.postData.title = $scope.post.title.innerHTML.trim();
@@ -67,20 +66,53 @@ app.controller('buttonManager', function($scope, $element, $location, $http) {
 
     $scope.savePost = function() {
 
-        this.data = {
-            id: $scope.id,
-            author: $scope.author,
-            text: $scope.textModel
-        };
-
         $http({
             method: 'PUT',
             url: '',
-            data: this.data,
+            data: $scope.postData,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
+        })
+    }
+
+    $scope.publishPost = function() {
+
+        $http({
+            method: 'POST',
+            url: '/publish',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+    $scope.publishPost = function() {
+
+        $http({
+            method: 'POST',
+            url: 'unpublish',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+    $scope.publishPost = function() {
+
+        $http({
+            method: 'DELETE',
+            url: '',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .success(function(data, status, headers, config) {
+            $window.location.href = '/post/all'
         })
     }
 

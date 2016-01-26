@@ -5,9 +5,11 @@ package com.bodiukh.blog.dto;
  */
 public class PostDTO {
 
+    private String author;
+
     private String title;
 
-    private String author;
+    private String text;
 
     public PostDTO() {
     }
@@ -26,5 +28,13 @@ public class PostDTO {
 
     public void setAuthor(final String author) {
         this.author = author;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
