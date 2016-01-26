@@ -24,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author a.bodiukh
  */
 @Service("userDetailsService")
-public class UserDetailsServiceImpl implements UserDetailsService {
+@Transactional
+public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     private UserDAO userDAO;
@@ -60,4 +61,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new ArrayList<>(setAuths);
     }
 
+    @Override
+    @Transactional
+    public com.bodiukh.blog.domain.User getUserById(final String id) {
+        return userDAO.getById(id);
+    }
+
+    @Override
+    @Transactional
+    public com.bodiukh.blog.domain.User getUserByName(final String name) {
+        return userDAO.findByUsername(name);
+    }
 }

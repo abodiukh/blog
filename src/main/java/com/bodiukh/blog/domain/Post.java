@@ -13,11 +13,11 @@ public class Post {
 
     @Id
     @Column(name="id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
     @Column(name="title")
@@ -48,8 +48,8 @@ public class Post {
         return author;
     }
 
-    public void setAuthor(final User author) {
-        this.author = author;
+    public void setAuthor(final User user) {
+        this.author = user;
     }
 
     public String getText() {

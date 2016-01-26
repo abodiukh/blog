@@ -1,5 +1,6 @@
 package com.bodiukh.blog.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.bodiukh.blog.domain.Post;
@@ -38,9 +39,9 @@ public class PostDAOImpl implements PostDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void addPost(final Post post) {
+    public Integer addPost(final Post post) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(post);
+        return (Integer) session.save(post);
     }
 
     @Override

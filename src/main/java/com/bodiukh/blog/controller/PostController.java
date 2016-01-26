@@ -1,10 +1,17 @@
 package com.bodiukh.blog.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.bodiukh.blog.domain.Post;
+import com.bodiukh.blog.domain.User;
+import com.bodiukh.blog.dto.PostDTO;
 import com.bodiukh.blog.service.PostService;
+import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +24,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PostController {
 
     private PostService postService;
+    private UserService userService;
 
     @Autowired(required = true)
     @Qualifier(value = "postService")
-    public void setPostService(PostService ps) {
-        this.postService = ps;
+    public void setPostService(PostService postService) {
+        this.postService = postService;
+    }
+
+    @Autowired(required = true)
+    @Qualifier(value = "userDetailsService")
+    public void setPostService(UserService userService) {
+        this.userService= userService;
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
@@ -44,10 +58,13 @@ public class PostController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addPost(@RequestBody Post post, Model model) {
+    public ResponseEntity addPost(@RequestBody PostDTO postDTO) {
+        User user = userService.getUserByName(postDTO.getAuthor());
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setTitle(postDTO.getTitle());
         postService.addPost(post);
-        model.addAttribute("post", post);
-        return "post";
+        return new ResponseEntity<>(post.getId().toString(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/publish", method = RequestMethod.POST)

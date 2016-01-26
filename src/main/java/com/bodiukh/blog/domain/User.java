@@ -25,13 +25,10 @@ public class User {
     @Column(name = "user_id", unique = true, nullable = false, length = 45)
     private Integer userId;
 
-    @OneToMany(mappedBy = "author")
-    private Set<Post> posts;
-
-    @Column(name = "username", unique = true, nullable = false, length = 45)
+    @Column(name = "username", length = 45)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 60)
+    @Column(name = "password", length = 60)
     private String password;
 
     @Column(name = "enabled")
@@ -55,14 +52,6 @@ public class User {
 
     public void setUserId(final Integer userId) {
         this.userId = userId;
-    }
-
-    public Set<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(final Set<Post> posts) {
-        this.posts = posts;
     }
 
     public String getUsername() {

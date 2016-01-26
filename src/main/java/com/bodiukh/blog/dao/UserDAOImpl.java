@@ -26,4 +26,9 @@ public class UserDAOImpl implements UserDAO {
                 .list();
         return users.get(0);
     }
+
+    @Override
+    public User getById(final String id) {
+        return (User) sessionFactory.getCurrentSession().get(User.class, new Integer(id));
+    }
 }

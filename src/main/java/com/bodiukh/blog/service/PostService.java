@@ -13,7 +13,7 @@ public interface PostService {
 
     List<Post> getPosts();
 
-    void addPost(Post post);
+    Integer addPost(Post post);
 
     void updatePost(Post post);
 

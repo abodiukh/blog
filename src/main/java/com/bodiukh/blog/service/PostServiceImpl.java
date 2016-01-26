@@ -34,8 +34,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public void addPost(final Post post) {
-        postDAO.addPost(post);
+    public Integer addPost(final Post post) {
+        return postDAO.addPost(post);
     }
 
     @Override
