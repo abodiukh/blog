@@ -31,14 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    @Qualifier("userDetailsService")
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    @Qualifier("encoder")
-    private PasswordEncoder encoder;
-
-    private AuthenticationManagerImpl authenticationManager = new AuthenticationManagerImpl();
+    private AuthenticationManager authenticationManager;
 
     @Consumes("application/json")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -49,15 +42,5 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User resultUser = new User(user.getUsername(), user.getPassword());
         return new ResponseEntity<>(resultUser, HttpStatus.OK);
-    }
-
-    class AuthenticationManagerImpl implements AuthenticationManager {
-
-        public Authentication authenticate(Authentication auth) throws AuthenticationException {
-            DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-            authenticationProvider.setUserDetailsService(userDetailsService);
-            authenticationProvider.setPasswordEncoder(encoder);
-            return authenticationProvider.authenticate(auth);
-        }
     }
 }
