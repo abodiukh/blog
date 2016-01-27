@@ -19,7 +19,6 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostDAO postDAO;
 
-
     @Override
     @Transactional
     public Post getPost(final String id) {
@@ -54,10 +53,5 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public void removePost(final String id) {
         postDAO.removePost(id);
-    }
-
-    @Override
-    public void publish(String id) {
-        postDAO.publish(id);
     }
 }

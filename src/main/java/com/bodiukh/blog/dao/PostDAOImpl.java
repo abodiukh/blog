@@ -1,6 +1,5 @@
 package com.bodiukh.blog.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.bodiukh.blog.domain.Post;
@@ -8,7 +7,6 @@ import com.bodiukh.blog.domain.Post;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,10 +17,6 @@ public class PostDAOImpl implements PostDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    public void setSessionFactory(final SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Post getPost(final String id) {
@@ -68,6 +62,6 @@ public class PostDAOImpl implements PostDAO {
 
     @Override
     public void publish(String id) {
-        
+
     }
 }

@@ -25,6 +25,9 @@ public class UserRole {
     @Column(name = "rights")
     private String rights;
 
+    public UserRole() {
+    }
+
     public Integer getUserRoleId() {
         return userRoleId;
     }

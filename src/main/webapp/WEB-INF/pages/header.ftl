@@ -1,6 +1,6 @@
 <header>
     <div class="intro">
-        <h1>Blog</h1>
+        <h1><a href="/post/all">Blog</a></h1>
     </div>
     <div id="login" ng-controller="loginController">
         <form class="login-form" ng-submit="postForm()">

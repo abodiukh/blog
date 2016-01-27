@@ -7,7 +7,7 @@ app.controller('loginController', function($scope, $http) {
 
         $http({
             method: 'POST',
-            url: 'http://localhost:9090/user/login',
+            url: '/user/login',
             data: $scope.user,
             headers: {
                 'Accept': 'application/json',
@@ -81,7 +81,7 @@ app.controller('buttonManager', function($scope, $element, $location, $http) {
 
         $http({
             method: 'POST',
-            url: '/publish',
+            url: location.pathname + '/publish',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -89,11 +89,11 @@ app.controller('buttonManager', function($scope, $element, $location, $http) {
         })
     }
 
-    $scope.publishPost = function() {
+    $scope.unpublishPost = function() {
 
         $http({
             method: 'POST',
-            url: 'unpublish',
+            url: location.pathname + '/unpublish',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ app.controller('buttonManager', function($scope, $element, $location, $http) {
         })
     }
 
-    $scope.publishPost = function() {
+    $scope.deletePost = function() {
 
         $http({
             method: 'DELETE',

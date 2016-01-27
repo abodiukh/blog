@@ -1,6 +1,6 @@
 package com.bodiukh.blog.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 import com.bodiukh.blog.domain.Post;
 import com.bodiukh.blog.domain.User;
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Date;
-
 @Controller
 @RequestMapping("/post")
 public class PostController {
@@ -37,7 +35,7 @@ public class PostController {
     @Autowired(required = true)
     @Qualifier(value = "userDetailsService")
     public void setPostService(UserService userService) {
-        this.userService= userService;
+        this.userService = userService;
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
@@ -56,7 +54,7 @@ public class PostController {
     public String updatePost(@PathVariable("id") String id, @RequestBody PostDTO postDTO, Model model) {
         Post post = postService.getPost(id);
         post.setTitle(postDTO.getTitle());
-        post.setTitle(postDTO.getText());
+        post.setText(postDTO.getText());
         postService.updatePost(post);
         model.addAttribute("post", post);
         return "post";
