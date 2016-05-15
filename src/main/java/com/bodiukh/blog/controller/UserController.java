@@ -40,7 +40,6 @@ public class UserController {
         token.setDetails(new WebAuthenticationDetails(request));
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        User resultUser = new User(user.getUsername(), user.getPassword());
-        return new ResponseEntity<>(resultUser, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

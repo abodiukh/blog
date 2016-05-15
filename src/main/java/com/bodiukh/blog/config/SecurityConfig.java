@@ -16,7 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * @author a.bodiukh
@@ -31,17 +31,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.parentAuthenticationManager(createAuthenticationManager()).
-                userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/posts/all", "/user/login").permitAll()
+        http.authorizeRequests().antMatchers("/post/all", "/user/login").permitAll()
                 .antMatchers("/post/*")
-                .access("hasRole('ADMIN')")
+                .access("hasRole('admin')")
                 .and().csrf().disable()
-                .exceptionHandling().accessDeniedPage("/403").and().httpBasic().authenticationEntryPoint(entryPoint());
+                .addFilterBefore(new RestAuthenticationFilter(), BasicAuthenticationFilter.class);
     }
 
     @Bean
@@ -49,12 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("encoder")
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
-    }
-
-    public BasicAuthenticationEntryPoint entryPoint() {
-        BasicAuthenticationEntryPoint basicAuthEntryPoint = new BasicAuthenticationEntryPoint();
-        basicAuthEntryPoint.setRealmName("Realm");
-        return basicAuthEntryPoint;
     }
 
     @Bean
