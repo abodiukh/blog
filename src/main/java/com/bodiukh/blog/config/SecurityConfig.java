@@ -1,5 +1,7 @@
 package com.bodiukh.blog.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +18,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
  * @author a.bodiukh
@@ -36,23 +39,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        RestAuthenticationFilter filter = new RestAuthenticationFilter();
+        filter.setRequiresAuthenticationRequestMatcher(requestMatcher);
+        filter.setAuthenticationManager(createAuthenticationManager());
+        filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler());
         http.authorizeRequests().antMatchers("/post/all", "/user/login").permitAll()
-                .antMatchers("/post/*")
-                .access("hasRole('admin')")
                 .and().csrf().disable()
-                .addFilterBefore(new RestAuthenticationFilter(), BasicAuthenticationFilter.class);
+                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(new FailureAuthenticationEntryPoint());
     }
 
     @Bean
     @Scope("singleton")
     @Qualifier("encoder")
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager createAuthenticationManager() {
-        return new AuthenticationManager () {
+        return new AuthenticationManager() {
 
             public Authentication authenticate(Authentication auth) throws AuthenticationException {
                 DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -62,5 +68,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
         };
     }
+
+    public static RequestMatcher requestMatcher = new RequestMatcher() {
+
+        @Override
+        public boolean matches(final HttpServletRequest request) {
+            String uri = request.getRequestURI();
+            return !(uri.endsWith("/post/all") || uri.contains("/resources/") || uri.endsWith("user/login"));
+        }
+    };
 
 }

@@ -13,32 +13,25 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.StringUtils;
 
-public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     public static final String FILTER_APPLIED = "applied";
 
-    public static RequestMatcher requestMatcher = new RequestMatcher() {
-
-        @Override
-        public boolean matches(final HttpServletRequest request) {
-            String uri = request.getRequestURI();
-            return !(uri.endsWith("/post/all") || uri.contains("/resources/") || uri.endsWith("user/login"));
-        }
-    };
-
     public RestAuthenticationFilter() throws Exception {
-        super(requestMatcher);
+        super();
     }
 
     @Override
@@ -73,10 +66,24 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
      * Attempt to authenticate request - basically just pass over to another method to authenticate request headers
      */
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
         Authentication userAuthenticationToken = SecurityContextHolder.getContext().getAuthentication();
         if(userAuthenticationToken == null) throw new AuthenticationServiceException(MessageFormat.format("Error | {0}", "Bad Token"));
+        this.getAuthenticationManager().authenticate(userAuthenticationToken);
         return userAuthenticationToken;
     }
 
+    @Override
+    protected void successfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain, final Authentication authResult) throws IOException, ServletException {
+        getRememberMeServices().loginSuccess(request, response, authResult);
+
+        // Fire event
+        if (this.eventPublisher != null) {
+            eventPublisher.publishEvent(new InteractiveAuthenticationSuccessEvent(
+                    authResult, this.getClass()));
+        }
+
+        getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
+        chain.doFilter(request, response);
+    }
 }
