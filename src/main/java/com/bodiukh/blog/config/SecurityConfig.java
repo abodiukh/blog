@@ -43,9 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setRequiresAuthenticationRequestMatcher(requestMatcher);
         filter.setAuthenticationManager(createAuthenticationManager());
         filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler());
-        http.authorizeRequests().antMatchers("/post/all", "/user/login").permitAll()
-                .and().csrf().disable()
-                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+        http.csrf().disable().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(new FailureAuthenticationEntryPoint());
     }
 
@@ -74,7 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public boolean matches(final HttpServletRequest request) {
             String uri = request.getRequestURI();
-            return !(uri.endsWith("/post/all") || uri.contains("/resources/") || uri.endsWith("user/login"));
+            return !(uri.equals("/") || uri.endsWith("/post/all")
+                    || uri.contains("/resources/") || uri.endsWith("user/login"));
         }
     };
 

@@ -135,6 +135,12 @@
           <version>${spring.security.version}</version>
         </dependency>
 
+        <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+          <version>${spring.version}</version>
+        </dependency>
+
         <dependency><!-- needed for freemarker FreeMarkerConfigurer stuff -->
           <groupId>org.springframework</groupId>
           <artifactId>spring-context-support</artifactId>
@@ -166,6 +172,13 @@
                         <include>**/*Tests.java</include>
                     </includes>
                 </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-war-plugin</artifactId>
+              <configuration>
+                <failOnMissingWebXml>false</failOnMissingWebXml>
+              </configuration>
             </plugin>
         </plugins>
     </build>
