@@ -74,7 +74,9 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     }
 
     @Override
-    protected void successfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain, final Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(final HttpServletRequest request, final HttpServletResponse response,
+                                            final FilterChain chain, final Authentication authResult)
+            throws IOException, ServletException {
         getRememberMeServices().loginSuccess(request, response, authResult);
 
         // Fire event

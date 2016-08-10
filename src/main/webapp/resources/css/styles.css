@@ -1,0 +1,128 @@
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
+    color: white;
+    font-size: 12px;
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    margin: 0 0 20px;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    font-style: normal;
+}
+
+p.date {
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 1;
+    color: #818181;
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.input-field {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+    cursor: default;
+}
+
+.form-control {
+    width: 80%;
+    margin-bottom: 5px;
+    line-height: 1.42857143;
+    color: #555;
+    background: #fff none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.btn-block {
+    width: 80%;
+}
+
+.btn-secondary {
+    display: inline-block;
+    width: 80px;
+    margin-left: 1%;
+    font-weight: 500;
+    padding: 0 8px;
+    border-radius: 18px;
+    height: 22px;
+    line-height: 20px;
+    border: 1px solid #e2e2e2;
+    font-size: 13px;
+    background-color: #ffffff;
+}
+
+.btn-secondary:hover {
+    color: #42B6F3;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #222;
+    border-color: #100;
+}
+
+.btn {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.button-list {
+    margin-bottom: 30px;
+}
+
+.button-list .btn-secondary {
+    margin-right: 3%;
+    width: 12%;
+    font-size: 90%;
+}
+
+.button {
+    display: inline-block;
+    font-weight: 500;
+    color: #a5a5a5;
+    padding: 0 20px;
+    border-radius: 18px;
+    height: 36px;
+    line-height: 36px;
+    border: 1px solid #e2e2e2;
+    font-size: 13px;
+}
+
+.button:hover {
+    color: #42B6F3;
+}
+
+.fixed {
+    position:fixed;
+}

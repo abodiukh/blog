@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         public boolean matches(final HttpServletRequest request) {
             String uri = request.getRequestURI();
             return !(uri.equals("/") || uri.endsWith("/post/all")
-                    || uri.contains("/resources/") || uri.endsWith("user/login"));
+                    || uri.contains("/resources/") || uri.endsWith("user/login") || uri.endsWith("user/logout"));
         }
     };
 

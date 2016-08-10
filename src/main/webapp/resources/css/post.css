@@ -1,0 +1,35 @@
+.post {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #818181;
+    vertical-align: baseline;
+}
+
+.post h1 a {
+    color: #222;
+    font-size: 24px;
+}
+
+#post-box #inner-box {
+    width: 100%;
+}
+
+textarea {
+    border: 1px solid #818181;;
+    border-radius: 5px;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #818181;
+    vertical-align: baseline;
+    width: 100%;
+    min-height: 300px;
+    text-align: left;
+}
+
+.edit-post .form-control {
+    width: 100%;
+}

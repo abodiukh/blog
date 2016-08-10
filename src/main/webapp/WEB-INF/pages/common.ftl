@@ -22,7 +22,14 @@
         <div class="post">
             <p class="date">May 22, 2015</p>
             <h1><a href="/post/${post.id}">${post.title}</a></h1>
-            <p><#if post.text?has_content>${post.text}</#if></p>
+            <p><#if post.text?has_content>
+                <#if post.text?length<100>
+                    ${post.text}
+                <#else>
+                    ${post.text?substring(0,500) + "..."}
+                </#if>
+               </#if>
+            </p>
             <p><a href="/post/${post.id}" class="button">Read more</a></p>
         </div>
         </#if>
