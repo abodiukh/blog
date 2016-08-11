@@ -3,7 +3,7 @@
         <div class="top-navigation-left">
             <a href="/post/all">Blog</a>
         </div>
-        <div class="top-navigation-right">
+        <div class="top-navigation-right" ng-controller="loginController">
             <a ng-click="expand()">Sign in</a>
             <a ng-click="logout()">Sign out</a>
         </div>

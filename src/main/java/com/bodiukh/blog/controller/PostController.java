@@ -60,7 +60,7 @@ public class PostController {
         return "post";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addPost(@RequestBody PostDTO postDTO) {
         User user = userService.getUserByName(postDTO.getAuthor());
         Post post = new Post();

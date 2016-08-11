@@ -1,16 +1,23 @@
-.add-form {
+.add-box {
     padding-bottom: 40px;
-    margin-top: 10px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
 }
 
 .add-form .btn-secondary {
     width: 65px;
+    cursor: pointer;
 }
 
-.add-form i {
-    float: right;
-    position: relative;
+.add-form .btn-secondary:focus {
+    outline: none;
+}
+
+.add-menu i {
     display: block;
+    cursor: pointer;
 }
 
 .plus-icon {
@@ -25,4 +32,17 @@
     background-size: cover;
     width: 20px;
     height: 20px;
+}
+
+.add-form {
+    width: 90%;
+}
+
+.post-box .inner-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-box .inner-box .form-control {
+    width: 90%;
 }

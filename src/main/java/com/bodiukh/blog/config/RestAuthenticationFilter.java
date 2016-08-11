@@ -68,8 +68,9 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
         Authentication userAuthenticationToken = SecurityContextHolder.getContext().getAuthentication();
-        if(userAuthenticationToken == null) throw new AuthenticationServiceException(MessageFormat.format("Error | {0}", "Bad Token"));
-        this.getAuthenticationManager().authenticate(userAuthenticationToken);
+        if (userAuthenticationToken!=null) {
+            this.getAuthenticationManager().authenticate(userAuthenticationToken);
+        }
         return userAuthenticationToken;
     }
 

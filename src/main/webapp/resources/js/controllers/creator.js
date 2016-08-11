@@ -1,4 +1,4 @@
-app.controller('postCreator', function($scope, $element, $location, $http, $window) {
+app.controller('postCreator', function($rootScope, $scope, $element, $location, $http, $window) {
 
     $scope.isExpanded = false;
     $scope.plusIcon = true;
@@ -19,7 +19,7 @@ app.controller('postCreator', function($scope, $element, $location, $http, $wind
 
         $http({
             method: 'POST',
-            url: '',
+            url: '/post',
             data: $scope.post,
             headers: {
                 'Accept': 'application/json',
@@ -28,6 +28,10 @@ app.controller('postCreator', function($scope, $element, $location, $http, $wind
         })
         .success(function(data, status, headers, config) {
             $window.location.href = '/post/' + data
+        }).error(function(data, status, headers, config){
+            if (status==401) {
+                $rootScope.$emit('login', false);
+            }
         });
     };
 

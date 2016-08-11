@@ -44,7 +44,7 @@ label {
 }
 
 .form-control {
-    width: 80%;
+    width: 100%;
     margin-bottom: 5px;
     line-height: 1.42857143;
     color: #555;
@@ -56,7 +56,7 @@ label {
 }
 
 .btn-block {
-    width: 80%;
+    width: 100%;
 }
 
 .btn-secondary {
@@ -98,13 +98,21 @@ label {
 }
 
 .button-list {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 .button-list .btn-secondary {
     margin-right: 3%;
     width: 12%;
     font-size: 90%;
+    cursor: pointer;
+}
+
+.button-list .btn-secondary:focus {
+    outline: none;
 }
 
 .button {

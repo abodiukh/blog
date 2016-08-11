@@ -3,18 +3,22 @@
 
 <@renderPage>
 <div id="content" ng-controller="postCreator">
-    <form name="form" class="add-form" ng-submit="addPost()">
-        <i class="plus-icon" ng-click="expand()" ng-show="plusIcon"></i>
-        <i class="minus-icon" ng-click="expand()" ng-show="minusIcon"></i>
-        <div id="post-box" ng-show="isExpanded">
-            <div id="inner-box">
-                <label for="inputTitle" class="input-field">Title</label>
-                <input type="text" name="input" id="inputTitle" class="form-control"
-                       placeholder="Title" required autofocus ng-model="post.title">
-                <button class="btn-secondary" type="submit">Add</button>
-            </div>
+    <div class="add-box">
+        <div class="add-menu">
+            <i class="plus-icon" ng-click="expand()" ng-show="plusIcon"></i>
+            <i class="minus-icon" ng-click="expand()" ng-show="minusIcon"></i>
         </div>
-    </form>
+        <form name="form" class="add-form" ng-submit="addPost()">
+            <div class="post-box" ng-show="isExpanded">
+                <div class="inner-box">
+                    <label for="inputTitle" class="input-field">Title</label>
+                    <input type="text" name="input" id="inputTitle" class="form-control"
+                           placeholder="Title" required autofocus ng-model="post.title">
+                    <button class="btn-secondary" type="submit">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
 <#if posts?has_content>
 <#list posts as post>
     <article>
