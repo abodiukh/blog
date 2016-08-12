@@ -29,9 +29,13 @@ app.controller('postCreator', function($rootScope, $scope, $element, $location, 
         .success(function(data, status, headers, config) {
             $window.location.href = '/post/' + data
         }).error(function(data, status, headers, config){
+            var message = '';
             if (status==401) {
-                $rootScope.$emit('login', false);
+                message = "You haven't been logged in"
+            } else if (status == 403) {
+                message = "Invalid login or password"
             }
+            $rootScope.$emit('login', [false, message]);
         });
     };
 

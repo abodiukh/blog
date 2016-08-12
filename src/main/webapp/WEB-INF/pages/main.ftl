@@ -13,7 +13,6 @@
     <script src="/resources/js/angular.js"></script>
     <script src="/resources/js/angular-sanitize.js"></script>
     <script src="/resources/js/blog.js"></script>
-    <script src="/resources/js/controllers/header.js"></script>
     <script src="/resources/js/controllers/login.js"></script>
     <script src="/resources/js/controllers/creator.js"></script>
     <script src="/resources/js/controllers/editor.js"></script>

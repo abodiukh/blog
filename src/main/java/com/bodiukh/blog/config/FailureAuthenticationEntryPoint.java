@@ -15,6 +15,6 @@ public class FailureAuthenticationEntryPoint implements AuthenticationEntryPoint
     public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authException)
             throws IOException, ServletException {
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        response.sendError(HttpServletResponse.SC_FORBIDDEN);
     }
 }

@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setRequiresAuthenticationRequestMatcher(requestMatcher);
         filter.setAuthenticationManager(createAuthenticationManager());
         filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler());
+        filter.setAuthenticationFailureHandler(new AuthenticationFailrureHandler());
         http.csrf().disable().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(new FailureAuthenticationEntryPoint());
     }
