@@ -1,4 +1,4 @@
-<header ng-controller="loginController">
+<header ng-controller="loginController" ng-init="init()">
     <div class="top-navigation">
         <div class="top-navigation-left">
             <a href="/post/all">Blog</a>

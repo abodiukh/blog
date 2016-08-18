@@ -1,7 +1,8 @@
-package com.bodiukh.blog.dao;
+package com.bodiukh.blog.dao.impl;
 
 import java.util.List;
 
+import com.bodiukh.blog.dao.PostDAO;
 import com.bodiukh.blog.domain.Post;
 
 import org.hibernate.Session;

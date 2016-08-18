@@ -1,8 +1,10 @@
 <#include "main.ftl">
 <#-- @ftlvariable name="posts" type="java.util.List<com.bodiukh.blog.domain.Post>" -->
+<#-- @ftlvariable name="showCreator" type="java.lang.Boolean" -->
 
 <@renderPage>
 <div id="content" ng-controller="postCreator">
+    <#if showCreator>
     <div class="add-box">
         <div class="add-menu">
             <i class="plus-icon" ng-click="expand()" ng-show="plusIcon"></i>
@@ -19,6 +21,7 @@
             </div>
         </form>
     </div>
+    </#if>
 <#if posts?has_content>
 <#list posts as post>
     <article>

@@ -1,9 +1,27 @@
-app.controller('loginController', function ($rootScope, $scope, $http, $element) {
+app.controller('loginController', function ($rootScope, $scope, $http, $element, $window) {
 
     this.isExpanded = false;
     this.isAuthorized = false;
 
     $scope.user = {username: "", password: ""};
+
+    $scope.init = function() {
+
+        $http({
+            method: 'POST',
+            url: '/user/isAuthorized',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .success(function(data, status, headers, config) {
+            $scope.isAuthorized = true;
+        })
+        .error(function(data, status, headers, config){
+            $scope.isAuthorized = false;
+        })
+    };
 
     $scope.login = function () {
         if ($scope.isAuthorized) {
@@ -45,6 +63,7 @@ app.controller('loginController', function ($rootScope, $scope, $http, $element)
         })
         .success(function(data, status, headers, config) {
             if (status==200) {
+                $window.location.reload();
                 $rootScope.$emit('login', [true, '']);
             }
             $scope.user = {username: "", password: ""};

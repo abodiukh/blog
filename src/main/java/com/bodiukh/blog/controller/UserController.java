@@ -41,6 +41,17 @@ public class UserController {
     }
 
     @Consumes("application/json")
+    @RequestMapping(value = "/isAuthorized", method = RequestMethod.POST)
+    public ResponseEntity<User> isAuthorized(HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Consumes("application/json")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResponseEntity<User> logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

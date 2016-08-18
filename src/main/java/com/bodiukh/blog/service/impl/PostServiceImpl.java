@@ -1,9 +1,10 @@
-package com.bodiukh.blog.service;
+package com.bodiukh.blog.service.impl;
 
 import java.util.List;
 
 import com.bodiukh.blog.dao.PostDAO;
 import com.bodiukh.blog.domain.Post;
+import com.bodiukh.blog.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

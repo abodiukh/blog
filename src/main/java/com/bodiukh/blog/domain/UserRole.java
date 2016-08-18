@@ -1,10 +1,17 @@
 package com.bodiukh.blog.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,8 +29,11 @@ public class UserRole {
     @Column(name = "role", unique = true, nullable = false)
     private String role;
 
-    @Column(name = "rights")
-    private String rights;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles_rights",
+            joinColumns = {@JoinColumn(name = "user_role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_right_id")})
+    private Set<UserRight> rights = new HashSet<>();
 
     public UserRole() {
     }
@@ -44,11 +54,11 @@ public class UserRole {
         this.role = role;
     }
 
-    public String getRights() {
+    public Set<UserRight> getRights() {
         return rights;
     }
 
-    public void setRights(final String rights) {
+    public void setRights(final Set<UserRight> rights) {
         this.rights = rights;
     }
 }
