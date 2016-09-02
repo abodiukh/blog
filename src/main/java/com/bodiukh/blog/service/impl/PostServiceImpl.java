@@ -3,10 +3,10 @@ package com.bodiukh.blog.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import com.bodiukh.blog.dao.PostDAO;
 import com.bodiukh.blog.domain.Post;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.dto.PostDTO;
+import com.bodiukh.blog.repository.PostRepository;
 import com.bodiukh.blog.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +21,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostServiceImpl implements PostService {
 
     @Autowired
-    private PostDAO postDAO;
+    private PostRepository postRepository;
 
     @Override
     @Transactional
     public Post getPost(final String id) {
-        return postDAO.getPost(id);
+        return postRepository.findOne(new Integer(id));
     }
 
     @Override
     @Transactional
     public List<Post> getPosts() {
-        return postDAO.getPosts();
+        return postRepository.findAll();
     }
 
     @Override
     @Transactional
     public List<Post> getPostsOfAuthor(final String author) {
-        return postDAO.getPostsOfAuthor(author);
+        return postRepository.findByAuthor(author);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class PostServiceImpl implements PostService {
         Post post = new Post();
         post.setAuthor(user);
         post.setTitle(postDTO.getTitle());
-        postDAO.addPost(post);
+        postRepository.save(post);
         return post;
     }
 
@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
         Post post = getPost(id);
         post.setTitle(postDTO.getTitle());
         post.setText(postDTO.getText());
-        postDAO.updatePost(post);
+        postRepository.save(post);
         return post;
     }
 
@@ -74,6 +74,6 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public void removePost(final String id) {
-        postDAO.removePost(id);
+        postRepository.delete(new Integer(id));
     }
 }

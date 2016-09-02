@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.bodiukh.blog.dao.UserDAO;
-import com.bodiukh.blog.dao.UserRoleDAO;
+import com.bodiukh.blog.repository.UserRepository;
+import com.bodiukh.blog.repository.UserRoleRepository;
 import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +36,10 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     private String defaultRolePrefix = "ROLE_";
 
     @Autowired
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRoleDAO userRoleDAO;
+    private UserRoleRepository userRoleRepository;
 
     @Autowired
     @Qualifier("encoder")
@@ -50,7 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
 
-        com.bodiukh.blog.domain.User user = userDAO.findByUsername(username);
+        com.bodiukh.blog.domain.User user = userRepository.findByUsername(username);
         List<GrantedAuthority> authorities =
                 buildUserAuthority(user.getUserRole());
 
@@ -73,12 +73,12 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public com.bodiukh.blog.domain.User getUserById(final String id) {
-        return userDAO.getById(id);
+        return userRepository.findOne(new Integer(id));
     }
 
     @Override
     public com.bodiukh.blog.domain.User getUserByName(final String name) {
-        return userDAO.findByUsername(name);
+        return userRepository.findByUsername(name);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     private EnumSet<UserRight> getRightByRoles(final Collection<? extends GrantedAuthority> roles) {
         Set<UserRight> userRights = new HashSet<>();
         for (GrantedAuthority role : roles) {
-            com.bodiukh.blog.domain.UserRole userRole = userRoleDAO.findByName(removeDefaultRolePrefix(role.getAuthority()));
+            com.bodiukh.blog.domain.UserRole userRole = userRoleRepository.findByRole(removeDefaultRolePrefix(role.getAuthority()));
             for (com.bodiukh.blog.domain.UserRight userRight : userRole.getRights()) {
                 userRights.add(UserRight.valueOf(userRight.getRightName().toUpperCase()));
             }

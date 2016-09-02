@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"com.bodiukh.blog"})
+@ComponentScan(basePackages = {"com.bodiukh.blog.config", "com.bodiukh.blog.controller", "com.bodiukh.blog.service.impl"})
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean

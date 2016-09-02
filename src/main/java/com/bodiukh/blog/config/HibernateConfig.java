@@ -2,20 +2,27 @@ package com.bodiukh.blog.config;
 
 import java.util.Properties;
 
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManagerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
+@EnableJpaRepositories(basePackages = "com.bodiukh.blog.repository", entityManagerFactoryRef = "entityManager")
 public class HibernateConfig {
 
     @Autowired
@@ -33,12 +40,26 @@ public class HibernateConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.bodiukh.blog.domain");
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        return sessionFactory;
+    public LocalContainerEntityManagerFactoryBean entityManager() {
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(Boolean.TRUE);
+        vendorAdapter.setShowSql(Boolean.TRUE);
+
+        factory.setDataSource(dataSource());
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan("com.bodiukh.blog.domain");
+        factory.setJpaProperties(hibernateProperties());
+        factory.afterPropertiesSet();
+        factory.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
+
+        return factory;
+    }
+
+    @Bean
+    public HibernateExceptionTranslator hibernateExceptionTranslator() {
+        return new HibernateExceptionTranslator();
     }
 
     private Properties hibernateProperties() {
@@ -51,10 +72,9 @@ public class HibernateConfig {
     }
 
     @Bean
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
-        HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory);
-        return txManager;
+    public PlatformTransactionManager transactionManager() {
+        EntityManagerFactory factory = entityManager().getObject();
+        return new JpaTransactionManager(factory);
     }
 
 }

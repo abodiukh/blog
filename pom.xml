@@ -97,6 +97,12 @@
           <version>${hibernate.version}</version>
         </dependency>
 
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-entitymanager</artifactId>
+          <version>4.3.8.Final</version>
+        </dependency>
+
         <!-- MySQL -->
         <dependency>
           <groupId>mysql</groupId>
