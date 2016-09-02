@@ -6,7 +6,6 @@ import com.bodiukh.blog.dto.PostDTO;
 import com.bodiukh.blog.service.PostService;
 import com.bodiukh.blog.service.UserService;
 import com.bodiukh.blog.service.impl.user.UserRight;
-import com.bodiukh.blog.service.impl.user.UserRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,14 +41,14 @@ public class PostController {
     public String getPosts(Model model) {
         boolean showCreator = userService.getRights().contains(UserRight.CREATE);
         model.addAttribute("posts", postService.getPosts());
-        model.addAttribute("showCreator", showCreator);
+        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
         return "common";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getPost(@PathVariable("id") String id, Model model) {
         model.addAttribute("post", postService.getPost(id));
-        model.addAttribute("showEditor", userService.getRoles().contains(UserRole.WRITER));
+        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
         return "post";
     }
 
@@ -64,7 +63,7 @@ public class PostController {
     public String updatePost(@PathVariable("id") String id, @RequestBody PostDTO postDTO, Model model) {
         Post post = postService.updatePost(id, postDTO);
         model.addAttribute("post", post);
-        model.addAttribute("showEditor", userService.getRoles().contains(UserRole.WRITER));
+        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
         return "post";
     }
 
@@ -72,7 +71,7 @@ public class PostController {
     public String publishPost(@PathVariable("id") String id, Model model) {
         Post post = postService.publishPost(id, true);
         model.addAttribute("post", post);
-        model.addAttribute("showEditor", userService.getRoles().contains(UserRole.WRITER));
+        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
         return "post";
     }
 
@@ -80,7 +79,7 @@ public class PostController {
     public String unpublishPost(@PathVariable("id") String id, Model model) {
         Post post = postService.publishPost(id, false);
         model.addAttribute("post", post);
-        model.addAttribute("showEditor", userService.getRoles().contains(UserRole.WRITER));
+        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
         return "post";
     }
 

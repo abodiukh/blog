@@ -99,7 +99,7 @@ label {
 
 .button-list {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-bottom: 30px;
     margin-top: 30px;
 }

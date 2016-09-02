@@ -19,15 +19,15 @@ public interface PostService {
 
     List<Post> getPostsOfAuthor(String author);
 
-    @PreAuthorize("hasRole('ROLE_writer')")
+    @PreAuthorize("@securityService.hasPermission('create')")
     Post addPost(PostDTO postDTO, User user);
 
-    @PreAuthorize("hasRole('ROLE_writer')")
+    @PreAuthorize("@securityService.hasPermission('write')")
     Post updatePost(String id, PostDTO postDTO);
 
-    @PreAuthorize("hasRole('ROLE_writer')")
+    @PreAuthorize("@securityService.hasPermission('write')")
     Post publishPost(String id, boolean publish);
 
-    @PreAuthorize("hasRole('ROLE_writer')")
+    @PreAuthorize("@securityService.hasPermission('delete')")
     void removePost(String id);
 }

@@ -1,10 +1,10 @@
 <#include "main.ftl">
 <#-- @ftlvariable name="posts" type="java.util.List<com.bodiukh.blog.domain.Post>" -->
-<#-- @ftlvariable name="showCreator" type="java.lang.Boolean" -->
+<#-- @ftlvariable name="permissions" type="java.util.List<java.lang.String>" -->
 
 <@renderPage>
 <div id="content" ng-controller="postCreator">
-    <#if showCreator>
+    <#if permissions?seq_contains("create")>
         <div class="add-box">
             <div class="add-menu">
                 <i class="plus-icon" ng-click="expand()" ng-show="plusIcon"></i>
