@@ -1,4 +1,4 @@
-package com.bodiukh.blog.service.impl;
+package com.bodiukh.blog.service.impl.user;
 
 public enum UserRight {
 

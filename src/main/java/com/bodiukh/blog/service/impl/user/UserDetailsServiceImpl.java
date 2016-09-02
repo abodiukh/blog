@@ -1,4 +1,4 @@
-package com.bodiukh.blog.service.impl;
+package com.bodiukh.blog.service.impl.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +9,6 @@ import java.util.Set;
 
 import com.bodiukh.blog.dao.UserDAO;
 import com.bodiukh.blog.dao.UserRoleDAO;
-import com.bodiukh.blog.domain.UserRole;
 import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("userDetailsService")
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService, UserService {
+
+    private String defaultRolePrefix = "ROLE_";
 
     @Autowired
     private UserDAO userDAO;
@@ -64,10 +65,9 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
                 user.isEnabled(), true, true, true, authorities);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(UserRole userRole) {
-
+    private List<GrantedAuthority> buildUserAuthority(com.bodiukh.blog.domain.UserRole userRole) {
         Set<GrantedAuthority> setAuths = new HashSet<>();
-        setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
+        setAuths.add(new SimpleGrantedAuthority(addDefaultRolePrefix(userRole.getRole())));
         return new ArrayList<>(setAuths);
     }
 
@@ -82,7 +82,20 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public EnumSet<UserRight> getRightByRoles() {
+    public EnumSet<UserRole> getRoles() {
+        Set<UserRole> userRoles = new HashSet<>();
+        UserDetails userDetails = getUserDetails();
+        if (userDetails != null) {
+            for (GrantedAuthority role : userDetails.getAuthorities()) {
+                userRoles.add(UserRole.valueOf(removeDefaultRolePrefix(role.getAuthority()).toUpperCase()));
+            }
+            return EnumSet.copyOf(userRoles);
+        }
+        return EnumSet.of(UserRole.READER);
+    }
+
+    @Override
+    public EnumSet<UserRight> getRights() {
         UserDetails userDetails = getUserDetails();
         if (userDetails != null) {
             return getRightByRoles(userDetails.getAuthorities());
@@ -91,14 +104,14 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     }
 
     private EnumSet<UserRight> getRightByRoles(final Collection<? extends GrantedAuthority> roles) {
-        Set<UserRight> rights = new HashSet<>();
+        Set<UserRight> userRights = new HashSet<>();
         for (GrantedAuthority role : roles) {
-            UserRole userRole = userRoleDAO.findByName(role.getAuthority());
+            com.bodiukh.blog.domain.UserRole userRole = userRoleDAO.findByName(removeDefaultRolePrefix(role.getAuthority()));
             for (com.bodiukh.blog.domain.UserRight userRight : userRole.getRights()) {
-                rights.add(UserRight.valueOf(userRight.getRightName().toUpperCase()));
+                userRights.add(UserRight.valueOf(userRight.getRightName().toUpperCase()));
             }
         }
-        return EnumSet.copyOf(rights);
+        return EnumSet.copyOf(userRights);
     }
 
     private UserDetails getUserDetails() {
@@ -107,5 +120,13 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
             return (UserDetails) authentication.getPrincipal();
         }
         return null;
+    }
+
+    private String addDefaultRolePrefix(String role) {
+        return defaultRolePrefix + role;
+    }
+
+    private String removeDefaultRolePrefix(String role) {
+        return role.substring(defaultRolePrefix.length());
     }
 }

@@ -1,23 +1,17 @@
 package com.bodiukh.blog.controller;
 
-import java.util.Date;
-import java.util.EnumSet;
-
 import com.bodiukh.blog.domain.Post;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.dto.PostDTO;
 import com.bodiukh.blog.service.PostService;
 import com.bodiukh.blog.service.UserService;
-import com.bodiukh.blog.service.impl.UserRight;
+import com.bodiukh.blog.service.impl.user.UserRight;
+import com.bodiukh.blog.service.impl.user.UserRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +40,7 @@ public class PostController {
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
     public String getPosts(Model model) {
-        boolean showCreator = userService.getRightByRoles().contains(UserRight.CREATE);
+        boolean showCreator = userService.getRights().contains(UserRight.CREATE);
         model.addAttribute("posts", postService.getPosts());
         model.addAttribute("showCreator", showCreator);
         return "common";
@@ -55,45 +49,38 @@ public class PostController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getPost(@PathVariable("id") String id, Model model) {
         model.addAttribute("post", postService.getPost(id));
-        return "post";
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updatePost(@PathVariable("id") String id, @RequestBody PostDTO postDTO, Model model) {
-        Post post = postService.getPost(id);
-        post.setTitle(postDTO.getTitle());
-        post.setText(postDTO.getText());
-        postService.updatePost(post);
-        model.addAttribute("post", post);
+        model.addAttribute("showEditor", userService.getRoles().contains(UserRole.WRITER));
         return "post";
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addPost(@RequestBody PostDTO postDTO) {
         User user = userService.getUserByName(postDTO.getAuthor());
-        Post post = new Post();
-        post.setAuthor(user);
-        post.setTitle(postDTO.getTitle());
-        postService.addPost(post);
+        Post post = postService.addPost(postDTO, user);
         return new ResponseEntity<>(post.getId().toString(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public String updatePost(@PathVariable("id") String id, @RequestBody PostDTO postDTO, Model model) {
+        Post post = postService.updatePost(id, postDTO);
+        model.addAttribute("post", post);
+        model.addAttribute("showEditor", userService.getRoles().contains(UserRole.WRITER));
+        return "post";
     }
 
     @RequestMapping(value = "/{id}/publish", method = RequestMethod.POST)
     public String publishPost(@PathVariable("id") String id, Model model) {
-        Post post = postService.getPost(id);
-        post.setPublished(true);
-        post.setDate(new Date());
-        postService.updatePost(post);
+        Post post = postService.publishPost(id, true);
         model.addAttribute("post", post);
+        model.addAttribute("showEditor", userService.getRoles().contains(UserRole.WRITER));
         return "post";
     }
 
     @RequestMapping(value = "/{id}/unpublish", method = RequestMethod.POST)
     public String unpublishPost(@PathVariable("id") String id, Model model) {
-        Post post = postService.getPost(id);
-        post.setPublished(false);
-        postService.updatePost(post);
+        Post post = postService.publishPost(id, false);
         model.addAttribute("post", post);
+        model.addAttribute("showEditor", userService.getRoles().contains(UserRole.WRITER));
         return "post";
     }
 

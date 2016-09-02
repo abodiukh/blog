@@ -1,5 +1,7 @@
 package com.bodiukh.blog.config;
 
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,6 +29,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -69,13 +73,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public static RequestMatcher requestMatcher = new RequestMatcher() {
+        private Pattern allowedMethods = Pattern.compile("^(GET|HEAD|TRACE|OPTIONS)$");
+        private Pattern notAllowedMethods = Pattern.compile("^(POST|PUT|DELETE)$");
 
-        @Override
         public boolean matches(final HttpServletRequest request) {
             String uri = request.getRequestURI();
-            return !(uri.equals("/") || uri.endsWith("/post/all")
-                    || uri.contains("/resources/") || uri.endsWith("user/login") || uri.endsWith("user/logout"));
+            String method = request.getMethod();
+            return !(isPublicInfo(method, uri) || isLogin(method, uri) || readPost(method, uri));
         }
+
+        private boolean isPublicInfo(String method, String uri) {
+            return allowedMethods.matcher(method).matches() &&
+                    (uri.equals("/") || uri.equals("/post/all") || uri.contains("/resources/"));
+        }
+
+        private boolean isLogin(String method, String uri) {
+            return notAllowedMethods.matcher(method).matches() && (uri.equals("/user/login") || uri.equals("user/logout"));
+        }
+
+        private boolean readPost(String method, String uri) {
+            Pattern allowedUrlPattern = Pattern.compile("^/post/.[^/]*$");
+            return allowedMethods.matcher(method).matches() && allowedUrlPattern.matcher(uri).matches();
+        }
+
     };
 
 }
