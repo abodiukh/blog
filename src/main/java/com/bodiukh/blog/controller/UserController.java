@@ -2,7 +2,6 @@ package com.bodiukh.blog.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
 
 import com.bodiukh.blog.domain.User;
 
@@ -30,7 +29,6 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Consumes("application/json")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
@@ -40,7 +38,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Consumes("application/json")
     @RequestMapping(value = "/isAuthorized", method = RequestMethod.POST)
     public ResponseEntity<User> isAuthorized(HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -51,7 +48,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @Consumes("application/json")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResponseEntity<User> logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
