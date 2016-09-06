@@ -1,59 +1,59 @@
 package com.bodiukh.blog.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.bodiukh.blog.domain.User;
+import com.bodiukh.blog.dto.UserDTO;
+import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author a.bodiukh
- */
-@RestController
-@RequestMapping("/user")
+@Controller
+@RequestMapping("/admin")
 public class UserController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private UserService userService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-        token.setDetails(new WebAuthenticationDetails(request));
-        Authentication authentication = authenticationManager.authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    @Autowired(required = true)
+    @Qualifier(value = "userDetailsService")
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @RequestMapping(path = "/users", method = RequestMethod.GET)
+    public ResponseEntity getUsers() {
+        List<User> users = userService.getAllUsers();
+        List<UserDTO> result = new ArrayList<>();
+        for (User user : users) {
+            result.add(new UserDTO(user.getUserId(), user.getUsername(), user.getUserRole().getRole(), user.isEnabled()));
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/roles", method = RequestMethod.GET)
+    public ResponseEntity getRoles() {
+        return new ResponseEntity<>(userService.getRoles(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/user", method = RequestMethod.POST)
+    public ResponseEntity addUser(@RequestBody UserDTO userDTO) {
+        userService.addUser(userDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/isAuthorized", method = RequestMethod.POST)
-    public ResponseEntity<User> isAuthorized(HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResponseEntity<User> logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
+    @RequestMapping(path = "/user", method = RequestMethod.PUT)
+    public ResponseEntity updateUser(@RequestBody UserDTO userDTO) {
+        userService.updateUser(userDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

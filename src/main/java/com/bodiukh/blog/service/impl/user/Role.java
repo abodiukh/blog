@@ -1,6 +1,6 @@
 package com.bodiukh.blog.service.impl.user;
 
-public enum UserRole {
+public enum Role {
     READER,
     WRITER,
     CREATOR

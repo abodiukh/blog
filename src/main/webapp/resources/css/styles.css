@@ -4,6 +4,16 @@
     font-size: 12px;
 }
 
+th {
+    text-transform: uppercase;
+    font-size: 8pt;
+}
+
+tr td {
+    font-size: 10pt;
+    text-align: center;
+}
+
 a {
     text-decoration: none;
 }
@@ -43,7 +53,7 @@ label {
     cursor: default;
 }
 
-.form-control {
+.form-control, .input-control {
     width: 100%;
     margin-bottom: 5px;
     line-height: 1.42857143;

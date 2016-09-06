@@ -44,6 +44,7 @@ app.controller('loginController', function ($rootScope, $scope, $http, $element,
         })
         .success(function(data, status, headers, config) {
             $scope.isAuthorized = false;
+            $window.location.href = '/post/all'
         })
         .error(function(data, status, headers, config){
             $scope.isAuthorized = true;

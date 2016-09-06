@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-public enum UserRight {
+public enum Right {
 
     READ,
     WRITE,
     CREATE,
-    DELETE;
+    DELETE,
+    ADMINISTER;
 
-    public static List<String> getValuesOf(EnumSet<UserRight> userRights) {
+    public static List<String> getValuesOf(EnumSet<Right> userRights) {
         ArrayList<String> values = new ArrayList<>();
-        for (UserRight userRight : userRights) {
+        for (Right userRight : userRights) {
             values.add(userRight.name().toLowerCase());
         }
         return values;

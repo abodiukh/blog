@@ -18,7 +18,7 @@ public class SecurityService {
     }
 
     public boolean hasPermission(String userRight) {
-        return userService.getRights().contains(UserRight.valueOf(userRight.toUpperCase()));
+        return userService.getRights().contains(Right.valueOf(userRight.toUpperCase()));
     }
 
 }

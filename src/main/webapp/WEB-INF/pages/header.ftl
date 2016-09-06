@@ -1,11 +1,14 @@
+<#-- @ftlvariable name="permissions" type="java.util.List<java.lang.String>" -->
+
 <header ng-controller="loginController" ng-init="init()">
     <div class="top-navigation">
         <div class="top-navigation-left">
             <a href="/post/all">Blog</a>
+            <#assign isAdmin>${(permissions?? && permissions?seq_contains('administer'))?c}</#assign>
+            <a href="/admin" ng-if="${isAdmin}">Admin</a>
         </div>
         <div class="top-navigation-right">
             <a ng-click="login()">Sign {{isAuthorized ? 'out' : 'in'}}</a>
-            <#--<a ng-click="logout()">Sign out</a>-->
         </div>
     </div>
 

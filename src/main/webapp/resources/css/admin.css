@@ -1,0 +1,21 @@
+.users-manager h2 {
+    color: black;
+}
+
+.users-manager table {
+    width: 100%;
+}
+
+.users-manager .input-control {
+    width: 70%;
+}
+
+.users-manager .button-list {
+    margin-bottom: auto;
+    margin-top: auto;
+    justify-content: flex-end;
+}
+
+.users-manager .button-list .btn-secondary {
+    width: 70px;
+}

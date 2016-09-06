@@ -5,7 +5,7 @@ import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.dto.PostDTO;
 import com.bodiukh.blog.service.PostService;
 import com.bodiukh.blog.service.UserService;
-import com.bodiukh.blog.service.impl.user.UserRight;
+import com.bodiukh.blog.service.impl.user.Right;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,22 +33,21 @@ public class PostController {
 
     @Autowired(required = true)
     @Qualifier(value = "userDetailsService")
-    public void setPostService(UserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
     public String getPosts(Model model) {
-        boolean showCreator = userService.getRights().contains(UserRight.CREATE);
         model.addAttribute("posts", postService.getPosts());
-        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
+        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "common";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getPost(@PathVariable("id") String id, Model model) {
         model.addAttribute("post", postService.getPost(id));
-        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
+        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "post";
     }
 
@@ -63,7 +62,7 @@ public class PostController {
     public String updatePost(@PathVariable("id") String id, @RequestBody PostDTO postDTO, Model model) {
         Post post = postService.updatePost(id, postDTO);
         model.addAttribute("post", post);
-        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
+        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "post";
     }
 
@@ -71,7 +70,7 @@ public class PostController {
     public String publishPost(@PathVariable("id") String id, Model model) {
         Post post = postService.publishPost(id, true);
         model.addAttribute("post", post);
-        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
+        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "post";
     }
 
@@ -79,7 +78,7 @@ public class PostController {
     public String unpublishPost(@PathVariable("id") String id, Model model) {
         Post post = postService.publishPost(id, false);
         model.addAttribute("post", post);
-        model.addAttribute("permissions", UserRight.getValuesOf(userService.getRights()));
+        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "post";
     }
 
