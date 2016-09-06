@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 @Component
-public class Sessionlistener implements HttpSessionListener, ApplicationContextAware {
+public class SessionListener implements HttpSessionListener, ApplicationContextAware {
 
     @Override
     public void sessionCreated(final HttpSessionEvent sessionEvent) {
