@@ -1,7 +1,6 @@
 package com.bodiukh.blog.config;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,21 +9,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.util.StringUtils;
 
 public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -66,9 +56,9 @@ public class RestAuthenticationFilter extends UsernamePasswordAuthenticationFilt
      * Attempt to authenticate request - basically just pass over to another method to authenticate request headers
      */
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         Authentication userAuthenticationToken = SecurityContextHolder.getContext().getAuthentication();
-        if (userAuthenticationToken!=null) {
+        if (userAuthenticationToken != null) {
             this.getAuthenticationManager().authenticate(userAuthenticationToken);
         }
         return userAuthenticationToken;
