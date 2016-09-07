@@ -3,12 +3,14 @@ package com.bodiukh.blog.service.impl.user;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bodiukh.blog.exceptions.EmailExistsException;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.domain.UserRole;
+import com.bodiukh.blog.domain.Verification;
 import com.bodiukh.blog.dto.UserDTO;
+import com.bodiukh.blog.exceptions.EmailExistsException;
 import com.bodiukh.blog.repository.UserRepository;
 import com.bodiukh.blog.repository.UserRoleRepository;
+import com.bodiukh.blog.repository.VerificationRepository;
 import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRoleRepository userRoleRepository;
+
+    @Autowired
+    private VerificationRepository verificationRepository;
 
     @Override
     public User getUserById(final String id) {
@@ -70,6 +75,16 @@ public class UserServiceImpl implements UserService {
         user.setUserRole(userRoleRepository.findByRole(userDTO.getRole()));
         user.setEnabled(userDTO.isEnabled());
         return userRepository.save(user);
+    }
+
+    @Override
+    public void createVerificationToken(final User user, final String token) {
+        verificationRepository.save(new Verification(token, user));
+    }
+
+    @Override
+    public Verification getVerificationToken(final String token) {
+        return verificationRepository.findByToken(token);
     }
 
     private boolean emailExist(String email) {

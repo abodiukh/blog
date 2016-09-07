@@ -1,18 +1,23 @@
 package com.bodiukh.blog.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.bodiukh.blog.domain.User;
+import com.bodiukh.blog.domain.Verification;
 import com.bodiukh.blog.dto.UserDTO;
 import com.bodiukh.blog.exceptions.EmailExistsException;
+import com.bodiukh.blog.listeners.events.OnRegistrationCompleteEvent;
 import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -28,7 +33,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
 /**
  * @author a.bodiukh
@@ -36,6 +43,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class LoginController {
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Autowired
     private UserService userService;
@@ -72,14 +82,19 @@ public class LoginController {
     }
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
-    public ResponseEntity addUser(@RequestBody @Valid UserDTO userDTO, BindingResult result, Errors errors) {
+    public ResponseEntity addUser(@RequestBody @Valid UserDTO userDTO, WebRequest request, BindingResult result, Errors errors) {
         List<String> invalidMessages = new ArrayList<>();
         if (!result.hasErrors()) {
             try {
-                userService.addUser(userDTO);
+                User registered = userService.addUser(userDTO);
+                String appUrl = request.getContextPath();
+                eventPublisher.publishEvent(new OnRegistrationCompleteEvent(registered, request.getLocale(), appUrl));
             } catch (EmailExistsException e) {
                 invalidMessages.add(e.getMessage());
+            } catch (Exception e) {
+                invalidMessages.add("Invalid email");
             }
+
         } else {
             for (ObjectError error : errors.getAllErrors()) {
                 invalidMessages.add(error.getDefaultMessage());
@@ -88,6 +103,29 @@ public class LoginController {
         if (!invalidMessages.isEmpty()) {
             return new ResponseEntity<>(invalidMessages, HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
+    public ResponseEntity confirmRegistration(WebRequest request, @RequestParam("token") String token) {
+        //TODO: add localization
+        Locale locale = request.getLocale();
+
+        Verification verification = userService.getVerificationToken(token);
+        if (verification == null) {
+            return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = verification.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verification.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            return new ResponseEntity<>("Token was expired", HttpStatus.BAD_REQUEST);
+        }
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEnabled(true);
+        userService.updateUser(userDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
