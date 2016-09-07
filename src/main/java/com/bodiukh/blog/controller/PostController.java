@@ -1,5 +1,7 @@
 package com.bodiukh.blog.controller;
 
+import javax.validation.Valid;
+
 import com.bodiukh.blog.domain.Post;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.dto.PostDTO;
@@ -55,14 +57,14 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity addPost(@RequestBody PostDTO postDTO) {
+    public ResponseEntity addPost(@RequestBody @Valid PostDTO postDTO) {
         User user = userService.getUserByName(postDTO.getAuthor());
         Post post = postService.addPost(postDTO, user);
         return new ResponseEntity<>(post.getId().toString(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updatePost(@PathVariable("id") String id, @RequestBody PostDTO postDTO, Model model) {
+    public String updatePost(@PathVariable("id") String id, @RequestBody @Valid PostDTO postDTO, Model model) {
         Post post = postService.updatePost(id, postDTO);
         model.addAttribute("post", post);
         return "post";

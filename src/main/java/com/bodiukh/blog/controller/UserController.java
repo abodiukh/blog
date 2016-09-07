@@ -32,7 +32,7 @@ public class UserController {
         List<User> users = userService.getAllUsers();
         List<UserDTO> result = new ArrayList<>();
         for (User user : users) {
-            result.add(new UserDTO(user.getUserId(), user.getUsername(), user.getUserRole().getRole(), user.isEnabled()));
+            result.add(new UserDTO(user.getId(), user.getName(), user.getUserRole().getRole(), user.isEnabled()));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -40,12 +40,6 @@ public class UserController {
     @RequestMapping(path = "/roles", method = RequestMethod.GET)
     public ResponseEntity getRoles() {
         return new ResponseEntity<>(userService.getRoles(), HttpStatus.OK);
-    }
-
-    @RequestMapping(path = "/user", method = RequestMethod.POST)
-    public ResponseEntity addUser(@RequestBody UserDTO userDTO) {
-        userService.addUser(userDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(path = "/user", method = RequestMethod.PUT)

@@ -49,7 +49,7 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByName(username);
         List<GrantedAuthority> authorities =
                 buildUserAuthority(user.getUserRole());
 
@@ -60,7 +60,7 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
     private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user,
                                                                                           List<GrantedAuthority> authorities) {
         String encodedPassword = encoder.encode(user.getPassword());
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), encodedPassword,
+        return new org.springframework.security.core.userdetails.User(user.getName(), encodedPassword,
                 user.isEnabled(), true, true, true, authorities);
     }
 

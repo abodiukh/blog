@@ -1,12 +1,37 @@
 package com.bodiukh.blog.dto;
 
+import javax.validation.constraints.NotNull;
+
+import com.bodiukh.blog.annotations.PasswordMatches;
+import com.bodiukh.blog.annotations.ValidEmail;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+@PasswordMatches
 public class UserDTO {
 
     private Integer id;
+
+    @NotNull
+    @NotEmpty
     private String name;
+
     private String role;
+
     private boolean enabled;
+
+    @NotNull
+    @NotEmpty
+    @ValidEmail
+    private String email;
+
+    @NotNull
+    @NotEmpty
     private String password;
+
+    @NotNull
+    @NotEmpty
+    private String confirmedPassword;
 
     public UserDTO() {
     }
@@ -56,5 +81,21 @@ public class UserDTO {
 
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    public String getConfirmedPassword() {
+        return confirmedPassword;
+    }
+
+    public void setConfirmedPassword(final String confirmedPassword) {
+        this.confirmedPassword = confirmedPassword;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
     }
 }

@@ -25,7 +25,9 @@ public class CustomRequestMatcher implements RequestMatcher {
     }
 
     private boolean isLogin(String method, String uri) {
-        return notAllowedMethods.matcher(method).matches() && (uri.equals("/user/login") || uri.equals("user/logout"));
+        return notAllowedMethods.matcher(method).matches() &&
+                (uri.equals("/user/login") || uri.equals("/user/logout")
+                        || uri.equals("/user/registration") || uri.equals("/user/isAuthorized"));
     }
 
     private boolean readPost(String method, String uri) {

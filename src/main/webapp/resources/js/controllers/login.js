@@ -1,9 +1,10 @@
 app.controller('loginController', function ($rootScope, $scope, $http, $element, $window) {
 
     this.isExpanded = false;
+    this.isRegistration = false;
     this.isAuthorized = false;
 
-    $scope.user = {username: "", password: ""};
+    $scope.user = {};
 
     $scope.init = function() {
 
@@ -28,7 +29,15 @@ app.controller('loginController', function ($rootScope, $scope, $http, $element,
             $scope.logout();
         } else {
             $scope.isExpanded = !$scope.isExpanded;
+            $scope.isRegistration = false;
+            $scope.invalid = false;
         }
+    };
+
+    $scope.register = function () {
+        $scope.isExpanded = false;
+        $scope.invalid = false;
+        $scope.isRegistration = !$scope.isRegistration;
     };
 
     $scope.logout = function() {
@@ -48,6 +57,28 @@ app.controller('loginController', function ($rootScope, $scope, $http, $element,
         })
         .error(function(data, status, headers, config){
             $scope.isAuthorized = true;
+        })
+    };
+
+    $scope.createAccount = function() {
+        $http({
+            method: 'POST',
+            url: '/user/registration',
+            data: $scope.user,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .success(function(data, status, headers, config) {
+            if (status==200) {
+                $scope.invalid = false;
+                $window.location.reload();
+            }
+        })
+        .error(function(data, status, headers, config){
+            $scope.invalid = true;
+            $scope.errorMessage = data.join(", ");
         })
     };
 

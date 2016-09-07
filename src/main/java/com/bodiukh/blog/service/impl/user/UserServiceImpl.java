@@ -3,6 +3,7 @@ package com.bodiukh.blog.service.impl.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bodiukh.blog.exceptions.EmailExistsException;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.domain.UserRole;
 import com.bodiukh.blog.dto.UserDTO;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByName(final String name) {
-        return userRepository.findByUsername(name);
+        return userRepository.findByName(name);
     }
 
     @Override
@@ -50,11 +51,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(final UserDTO userDTO) {
-        User user = new User(userDTO.getName(), userDTO.getPassword());
+    public User addUser(final UserDTO userDTO) throws EmailExistsException {
+        if (emailExist(userDTO.getEmail())) {
+            throw new EmailExistsException("There is an account with that email");
+        }
+        User user = new User(userDTO.getEmail(), userDTO.getName(), userDTO.getPassword());
         user.setEnabled(false);
         UserRole userRole = new UserRole();
-        String role = Role.WRITER.toString().toLowerCase();
+        String role = Role.READER.toString().toLowerCase();
         userRole.setUserRoleId(userRoleRepository.findByRole(role).getUserRoleId());
         user.setUserRole(userRole);
         return userRepository.save(user);
@@ -66,5 +70,10 @@ public class UserServiceImpl implements UserService {
         user.setUserRole(userRoleRepository.findByRole(userDTO.getRole()));
         user.setEnabled(userDTO.isEnabled());
         return userRepository.save(user);
+    }
+
+    private boolean emailExist(String email) {
+        User user = userRepository.findByEmail(email);
+        return user != null;
     }
 }

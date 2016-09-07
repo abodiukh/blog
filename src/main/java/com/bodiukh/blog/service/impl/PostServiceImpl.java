@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public boolean isReadonly(final Post post) {
         UserDetails userDetails = userDetailsService.getUserDetails();
-        return userDetails != null && !post.getAuthor().getUsername().equals(userDetails.getUsername())
+        return userDetails != null && !post.getAuthor().getName().equals(userDetails.getUsername())
                 && !userDetailsService.getRolesByUser().contains(Role.ADMIN);
     }
 

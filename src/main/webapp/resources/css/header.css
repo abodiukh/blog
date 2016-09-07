@@ -13,8 +13,18 @@
     font-weight: 700;
 }
 
+.top-navigation-left {
+    display: flex;
+    justify-content: space-between;
+}
+
 #login-box {
     background: #EBEBEB none repeat scroll 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+#sign-box {
     display: flex;
     justify-content: center;
 }
@@ -22,6 +32,10 @@
 #inner-box {
     padding: 25px;
     text-align: center;
+}
+
+#sign-box #inner-box {
+    width: 25%;
 }
 
 #inner-box h2 {
