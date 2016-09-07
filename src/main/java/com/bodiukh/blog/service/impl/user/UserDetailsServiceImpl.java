@@ -10,20 +10,17 @@ import java.util.Set;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.domain.UserRight;
 import com.bodiukh.blog.domain.UserRole;
-import com.bodiukh.blog.dto.UserDTO;
 import com.bodiukh.blog.repository.UserRepository;
 import com.bodiukh.blog.repository.UserRoleRepository;
-import com.bodiukh.blog.service.UserService;
+import com.bodiukh.blog.service.ExtendedUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("userDetailsService")
 @Transactional
-public class UserDetailsServiceImpl implements UserDetailsService, UserService {
+public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
 
     private String defaultRolePrefix = "ROLE_";
 
@@ -45,7 +42,6 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     private UserRoleRepository userRoleRepository;
 
     @Autowired
-    @Qualifier("encoder")
     private PasswordEncoder encoder;
 
     @Transactional(readOnly = true)
@@ -62,7 +58,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     }
 
     private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user,
-                                            List<GrantedAuthority> authorities) {
+                                                                                          List<GrantedAuthority> authorities) {
         String encodedPassword = encoder.encode(user.getPassword());
         return new org.springframework.security.core.userdetails.User(user.getUsername(), encodedPassword,
                 user.isEnabled(), true, true, true, authorities);
@@ -72,21 +68,6 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
         Set<GrantedAuthority> setAuths = new HashSet<>();
         setAuths.add(new SimpleGrantedAuthority(addDefaultRolePrefix(userRole.getRole())));
         return new ArrayList<>(setAuths);
-    }
-
-    @Override
-    public User getUserById(final String id) {
-        return userRepository.findOne(new Integer(id));
-    }
-
-    @Override
-    public User getUserByName(final String name) {
-        return userRepository.findByUsername(name);
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
     }
 
     @Override
@@ -103,41 +84,12 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<String> getRoles() {
-        List<UserRole> userRoles = userRoleRepository.findAll();
-        List<String> result = new ArrayList<>();
-        for (UserRole userRole : userRoles) {
-            result.add(userRole.getRole());
-        }
-        return result;
-    }
-
-    @Override
-    public EnumSet<Right> getRights() {
+    public EnumSet<Right> getRightsByUser() {
         UserDetails userDetails = getUserDetails();
         if (userDetails != null) {
             return getRightsByRoles(userDetails.getAuthorities());
         }
         return EnumSet.of(Right.READ);
-    }
-
-    @Override
-    public User addUser(final UserDTO userDTO) {
-        User user = new User(userDTO.getName(), userDTO.getPassword());
-        user.setEnabled(false);
-        UserRole userRole = new UserRole();
-        String role = Role.WRITER.toString().toLowerCase();
-        userRole.setUserRoleId(userRoleRepository.findByRole(role).getUserRoleId());
-        user.setUserRole(userRole);
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User updateUser(final UserDTO userDTO) {
-        User user = userRepository.getOne(userDTO.getId());
-        user.setUserRole(userRoleRepository.findByRole(userDTO.getRole()));
-        user.setEnabled(userDTO.isEnabled());
-        return userRepository.save(user);
     }
 
     private EnumSet<Right> getRightsByRoles(final Collection<? extends GrantedAuthority> roles) {
@@ -151,7 +103,8 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
         return EnumSet.copyOf(userRights);
     }
 
-    private UserDetails getUserDetails() {
+    @Override
+    public UserDetails getUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             return (UserDetails) authentication.getPrincipal();

@@ -50,8 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Scope("singleton")
-    @Qualifier("encoder")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

@@ -7,9 +7,12 @@ import com.bodiukh.blog.domain.Post;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.dto.PostDTO;
 import com.bodiukh.blog.repository.PostRepository;
+import com.bodiukh.blog.service.ExtendedUserDetailsService;
 import com.bodiukh.blog.service.PostService;
+import com.bodiukh.blog.service.impl.user.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +24,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostServiceImpl implements PostService {
 
     @Autowired
+    private ExtendedUserDetailsService userDetailsService;
+
+    @Autowired
     private PostRepository postRepository;
 
     @Override
     @Transactional
     public Post getPost(final String id) {
         return postRepository.findOne(new Integer(id));
+    }
+
+    @Override
+    public boolean isReadonly(final Post post) {
+        UserDetails userDetails = userDetailsService.getUserDetails();
+        return userDetails != null && !post.getAuthor().getUsername().equals(userDetails.getUsername())
+                && !userDetailsService.getRolesByUser().contains(Role.ADMIN);
     }
 
     @Override

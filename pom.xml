@@ -192,7 +192,6 @@
   <build>
     <finalName>Blog</finalName>
     <plugins>
-<!--
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
@@ -200,7 +199,8 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      <plugin>
+<!--
+        <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <includes>

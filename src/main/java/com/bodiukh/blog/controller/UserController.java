@@ -9,7 +9,6 @@ import com.bodiukh.blog.dto.UserDTO;
 import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired(required = true)
-    @Qualifier(value = "userDetailsService")
     public void setUserService(UserService userService) {
         this.userService = userService;
     }

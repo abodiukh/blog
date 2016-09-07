@@ -1,9 +1,11 @@
 <#include "main.ftl">
 <#-- @ftlvariable name="post" type="com.bodiukh.blog.domain.Post" -->
 <#-- @ftlvariable name="permissions" type="java.util.List<java.lang.String>" -->
+<#-- @ftlvariable name="readonly" type="java.lang.Boolean" -->
 
 <@renderPage>
     <div id="content" ng-controller="buttonManager">
+        <#if !readonly>
             <div class="button-list">
                 <#if permissions?seq_contains('write')>
                     <button id="edit" ng-click="turnEditMode()" class="btn-secondary">Edit</button>
@@ -18,6 +20,7 @@
                     <button id="delete" ng-click="deletePost()" class="btn-secondary" type="submit">Delete</button>
                 </#if>
             </div>
+        </#if>
         <div class="post" ng-show="viewMode">
             <h1><a href="/post/${post.id}">${post.title}</a></h1>
             <p><#if post.text?has_content>${post.text}</#if></p>

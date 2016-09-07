@@ -3,12 +3,11 @@ package com.bodiukh.blog.controller;
 import com.bodiukh.blog.domain.Post;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.dto.PostDTO;
+import com.bodiukh.blog.service.ExtendedUserDetailsService;
 import com.bodiukh.blog.service.PostService;
 import com.bodiukh.blog.service.UserService;
-import com.bodiukh.blog.service.impl.user.Right;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,30 +23,34 @@ public class PostController {
 
     private PostService postService;
     private UserService userService;
+    private ExtendedUserDetailsService userDetailsService;
 
     @Autowired(required = true)
-    @Qualifier(value = "postService")
     public void setPostService(PostService postService) {
         this.postService = postService;
     }
 
     @Autowired(required = true)
-    @Qualifier(value = "userDetailsService")
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired(required = true)
+    public void setUserServiceDetails(ExtendedUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
     public String getPosts(Model model) {
         model.addAttribute("posts", postService.getPosts());
-        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "common";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getPost(@PathVariable("id") String id, Model model) {
-        model.addAttribute("post", postService.getPost(id));
-        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
+        Post post = postService.getPost(id);
+        model.addAttribute("post", post);
+        model.addAttribute("readonly", postService.isReadonly(post));
         return "post";
     }
 
@@ -62,7 +65,6 @@ public class PostController {
     public String updatePost(@PathVariable("id") String id, @RequestBody PostDTO postDTO, Model model) {
         Post post = postService.updatePost(id, postDTO);
         model.addAttribute("post", post);
-        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "post";
     }
 
@@ -70,7 +72,6 @@ public class PostController {
     public String publishPost(@PathVariable("id") String id, Model model) {
         Post post = postService.publishPost(id, true);
         model.addAttribute("post", post);
-        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "post";
     }
 
@@ -78,12 +79,11 @@ public class PostController {
     public String unpublishPost(@PathVariable("id") String id, Model model) {
         Post post = postService.publishPost(id, false);
         model.addAttribute("post", post);
-        model.addAttribute("permissions", Right.getValuesOf(userService.getRights()));
         return "post";
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deletePost(@PathVariable("id") String id, Model model) {
+    public ResponseEntity deletePost(@PathVariable("id") String id) {
         postService.removePost(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
