@@ -23,35 +23,35 @@ public class UserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_role_id", unique = true, nullable = false)
-    private Integer userRoleId;
+    @Column(name = "id", unique = true, nullable = false)
+    private Integer id;
 
-    @Column(name = "role", unique = true, nullable = false)
-    private String role;
+    @Column(name = "name", unique = true, nullable = false)
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles_rights",
-            joinColumns = {@JoinColumn(name = "user_role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_right_id")})
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "right_id")})
     private Set<UserRight> rights = new HashSet<>();
 
     public UserRole() {
     }
 
-    public Integer getUserRoleId() {
-        return userRoleId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserRoleId(final Integer userRoleId) {
-        this.userRoleId = userRoleId;
+    public void setId(final Integer id) {
+        this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getName() {
+        return name;
     }
 
-    public void setRole(final String role) {
-        this.role = role;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public Set<UserRight> getRights() {

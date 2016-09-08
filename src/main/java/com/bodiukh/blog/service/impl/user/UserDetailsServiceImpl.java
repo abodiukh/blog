@@ -51,7 +51,7 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
 
         User user = userRepository.findByName(username);
         List<GrantedAuthority> authorities =
-                buildUserAuthority(user.getUserRole());
+                buildUserAuthority(user.getRole());
 
         return buildUserForAuthentication(user, authorities);
 
@@ -66,7 +66,7 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
 
     private List<GrantedAuthority> buildUserAuthority(UserRole userRole) {
         Set<GrantedAuthority> setAuths = new HashSet<>();
-        setAuths.add(new SimpleGrantedAuthority(addDefaultRolePrefix(userRole.getRole())));
+        setAuths.add(new SimpleGrantedAuthority(addDefaultRolePrefix(userRole.getName())));
         return new ArrayList<>(setAuths);
     }
 
@@ -95,9 +95,9 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
     private EnumSet<Right> getRightsByRoles(final Collection<? extends GrantedAuthority> roles) {
         Set<Right> userRights = new HashSet<>();
         for (GrantedAuthority role : roles) {
-            UserRole userRole = userRoleRepository.findByRole(removeDefaultRolePrefix(role.getAuthority()));
+            UserRole userRole = userRoleRepository.findByName(removeDefaultRolePrefix(role.getAuthority()));
             for (UserRight userRight : userRole.getRights()) {
-                userRights.add(Right.valueOf(userRight.getRightName().toUpperCase()));
+                userRights.add(Right.valueOf(userRight.getName().toUpperCase()));
             }
         }
         return EnumSet.copyOf(userRights);

@@ -1,8 +1,12 @@
 package com.bodiukh.blog.config;
 
+import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -15,6 +19,9 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 @Configuration
 @ComponentScan(basePackages = {"com.bodiukh.blog.controller", "com.bodiukh.blog.service.impl", "com.bodiukh.blog.listeners"})
 public class MvcConfig extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    private Environment environment;
 
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() {
@@ -34,7 +41,16 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public JavaMailSender mailSender() {
-        return new JavaMailSenderImpl();
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        javaMailSender.setHost(environment.getRequiredProperty("mail.host"));
+        javaMailSender.setPort(new Integer(environment.getRequiredProperty("mail.port")));
+        javaMailSender.setUsername(environment.getRequiredProperty("mail.username"));
+        javaMailSender.setPassword(environment.getRequiredProperty("mail.password"));
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.setProperty("mail.smtp.auth", environment.getRequiredProperty("mail.smtp.auth"));
+        javaMailProperties.setProperty("mail.smtp.starttls.enable", environment.getRequiredProperty("mail.smtp.starttls.enable"));
+        javaMailSender.setJavaMailProperties(javaMailProperties);
+        return javaMailSender;
     }
 
     @Override

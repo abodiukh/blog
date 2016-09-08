@@ -98,7 +98,7 @@ app.controller('loginController', function ($rootScope, $scope, $http, $element,
                 $window.location.reload();
                 $rootScope.$emit('login', [true, '']);
             }
-            $scope.user = {username: "", password: ""};
+            $scope.user = {name: "", password: ""};
         })
         .error(function(data, status, headers, config){
             var message = '';

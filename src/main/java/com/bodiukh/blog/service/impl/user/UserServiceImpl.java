@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         List<UserRole> userRoles = userRoleRepository.findAll();
         List<String> result = new ArrayList<>();
         for (UserRole userRole : userRoles) {
-            result.add(userRole.getRole());
+            result.add(userRole.getName());
         }
         return result;
     }
@@ -64,15 +64,15 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(false);
         UserRole userRole = new UserRole();
         String role = Role.READER.toString().toLowerCase();
-        userRole.setUserRoleId(userRoleRepository.findByRole(role).getUserRoleId());
-        user.setUserRole(userRole);
+        userRole.setId(userRoleRepository.findByName(role).getId());
+        user.setRole(userRole);
         return userRepository.save(user);
     }
 
     @Override
     public User updateUser(final UserDTO userDTO) {
         User user = userRepository.getOne(userDTO.getId());
-        user.setUserRole(userRoleRepository.findByRole(userDTO.getRole()));
+        user.setRole(userRoleRepository.findByName(userDTO.getRole()));
         user.setEnabled(userDTO.isEnabled());
         return userRepository.save(user);
     }
@@ -85,6 +85,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Verification getVerificationToken(final String token) {
         return verificationRepository.findByToken(token);
+    }
+
+    @Override
+    public void deleteUser(final Integer id) {
+        userRepository.delete(id);
     }
 
     private boolean emailExist(String email) {

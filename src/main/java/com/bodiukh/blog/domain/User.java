@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -20,10 +19,10 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", unique = true, nullable = false, length = 45)
+    @Column(name = "id", unique = true, nullable = false, length = 45)
     private Integer id;
 
-    @Column(name = "username", length = 45)
+    @Column(name = "name", length = 45)
     private String name;
 
     @Column(name = "email", length = 60)
@@ -36,8 +35,8 @@ public class User {
     private boolean enabled;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_role_id")
-    private UserRole userRole;
+    @JoinColumn(name = "role_id")
+    private UserRole role;
 
     public User() {
     }
@@ -80,12 +79,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setUserRole(final UserRole userRole) {
-        this.userRole = userRole;
+    public void setRole(final UserRole role) {
+        this.role = role;
     }
 
     public String getEmail() {

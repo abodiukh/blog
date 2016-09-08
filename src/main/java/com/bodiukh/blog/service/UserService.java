@@ -27,4 +27,6 @@ public interface UserService {
     void createVerificationToken(User user, String token);
 
     Verification getVerificationToken(String token);
+
+    void deleteUser(Integer id);
 }

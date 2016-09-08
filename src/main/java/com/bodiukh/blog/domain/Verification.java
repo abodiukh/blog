@@ -11,19 +11,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@Table(name = "verification")
 public class Verification {
     private static final int EXPIRATION = 60 * 24;
 
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="token")
+    @Column(name = "token")
     private String token;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
@@ -32,13 +34,15 @@ public class Verification {
 
     @Column(name = "expiration", columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date expiryDate;
+    private Date expirationDate;
+
+    public Verification() {
+    }
 
     public Verification(String token, User user) {
-        super();
         this.token = token;
         this.user = user;
-        this.expiryDate = calculateExpiryDate(EXPIRATION);
+        this.expirationDate = calculateExpiryDate(EXPIRATION);
     }
 
     private Date calculateExpiryDate(int expiryTimeInMinutes) {
@@ -64,12 +68,12 @@ public class Verification {
         this.user = user;
     }
 
-    public Date getExpiryDate() {
-        return expiryDate;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setExpiryDate(final Date expiryDate) {
-        this.expiryDate = expiryDate;
+    public void setExpirationDate(final Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     public Integer getId() {

@@ -10,6 +10,7 @@ public enum Right {
     WRITE,
     CREATE,
     DELETE,
+    PUBLISH,
     ADMINISTER;
 
     public static List<String> getValuesOf(EnumSet<Right> userRights) {

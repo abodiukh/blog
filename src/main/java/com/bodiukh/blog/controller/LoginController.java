@@ -93,8 +93,8 @@ public class LoginController {
                 invalidMessages.add(e.getMessage());
             } catch (Exception e) {
                 invalidMessages.add("Invalid email");
+                userService.deleteUser(userDTO.getId());
             }
-
         } else {
             for (ObjectError error : errors.getAllErrors()) {
                 invalidMessages.add(error.getDefaultMessage());
@@ -118,7 +118,7 @@ public class LoginController {
 
         User user = verification.getUser();
         Calendar cal = Calendar.getInstance();
-        if ((verification.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+        if ((verification.getExpirationDate().getTime() - cal.getTime().getTime()) <= 0) {
             return new ResponseEntity<>("Token was expired", HttpStatus.BAD_REQUEST);
         }
 

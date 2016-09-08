@@ -20,39 +20,39 @@ public class UserRight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "right_id", unique = true, nullable = false)
-    private Integer userRightId;
+    @Column(name = "id", unique = true, nullable = false)
+    private Integer id;
 
-    @Column(name = "right_name", unique = true, nullable = false)
-    private String rightName;
+    @Column(name = "name", unique = true, nullable = false)
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "rights")
-    private Set<UserRole> userRoles;
+    private Set<UserRole> roles;
 
     public UserRight() {
     }
 
-    public Integer getUserRightId() {
-        return userRightId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserRightId(final Integer userRightId) {
-        this.userRightId = userRightId;
+    public void setId(final Integer id) {
+        this.id = id;
     }
 
-    public String getRightName() {
-        return rightName;
+    public String getName() {
+        return name;
     }
 
-    public void setRightName(final String rightName) {
-        this.rightName = rightName;
+    public void setName(final String name) {
+        this.name = name;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
+    public Set<UserRole> getRoles() {
+        return roles;
     }
 
-    public void setUserRoles(final Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
+    public void setRoles(final Set<UserRole> roles) {
+        this.roles = roles;
     }
 }

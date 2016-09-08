@@ -32,7 +32,7 @@ public class UserController {
         List<User> users = userService.getAllUsers();
         List<UserDTO> result = new ArrayList<>();
         for (User user : users) {
-            result.add(new UserDTO(user.getId(), user.getName(), user.getUserRole().getRole(), user.isEnabled()));
+            result.add(new UserDTO(user.getId(), user.getName(), user.getRole().getName(), user.isEnabled()));
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
