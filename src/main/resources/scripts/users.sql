@@ -1,0 +1,1 @@
+insert into users(email, name, password, enabled, role_id) values('andrii.bodiukh@gmail.com', 'admin', '$2a$10$wKHViNfQi6Oy0K.zm6Wzt.G8rHKsvpX/8.WS6E9iHIyhYgz16fDz2', true, (select id from user_roles where name='admin'));

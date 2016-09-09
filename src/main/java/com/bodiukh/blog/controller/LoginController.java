@@ -82,7 +82,7 @@ public class LoginController {
     }
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
-    public ResponseEntity addUser(@RequestBody @Valid UserDTO userDTO, WebRequest request, BindingResult result, Errors errors) {
+    public ResponseEntity registration(@RequestBody @Valid UserDTO userDTO, WebRequest request, BindingResult result, Errors errors) {
         List<String> invalidMessages = new ArrayList<>();
         if (!result.hasErrors()) {
             try {
@@ -125,6 +125,7 @@ public class LoginController {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setEnabled(true);
+        userDTO.setRole(user.getRole().getName());
         userService.updateUser(userDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }

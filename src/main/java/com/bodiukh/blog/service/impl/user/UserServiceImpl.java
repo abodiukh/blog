@@ -14,12 +14,16 @@ import com.bodiukh.blog.repository.VerificationRepository;
 import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
         if (emailExist(userDTO.getEmail())) {
             throw new EmailExistsException("There is an account with that email");
         }
-        User user = new User(userDTO.getEmail(), userDTO.getName(), userDTO.getPassword());
+        User user = new User(userDTO.getEmail(), userDTO.getName(), passwordEncoder.encode(userDTO.getPassword()));
         user.setEnabled(false);
         UserRole userRole = new UserRole();
         String role = Role.READER.toString().toLowerCase();

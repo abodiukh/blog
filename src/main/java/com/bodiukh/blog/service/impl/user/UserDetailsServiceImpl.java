@@ -59,7 +59,7 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
 
     private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user,
                                                                                           List<GrantedAuthority> authorities) {
-        String encodedPassword = encoder.encode(user.getPassword());
+        String encodedPassword = user.getPassword();
         return new org.springframework.security.core.userdetails.User(user.getName(), encodedPassword,
                 user.isEnabled(), true, true, true, authorities);
     }
