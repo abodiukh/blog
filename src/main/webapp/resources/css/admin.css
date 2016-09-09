@@ -1,21 +1,130 @@
-.users-manager h2 {
+.manager h2 {
     color: black;
 }
 
-.users-manager table {
+.manager table {
     width: 100%;
 }
 
-.users-manager .input-control {
+.manager .input-control {
     width: 70%;
 }
 
-.users-manager .button-list {
+.manager .button-list {
     margin-bottom: auto;
     margin-top: auto;
     justify-content: flex-end;
 }
 
-.users-manager .button-list .btn-secondary {
+.manager .button-list .btn-secondary {
     width: 70px;
 }
+
+.email {
+    width: 30%;
+}
+
+input[type="checkbox"] {
+    box-shadow: none;
+}
+
+.ddmulti {
+    width: 30%
+}
+
+.ddmulti button {
+    width: 100%;
+    border: 1px solid #e2e2e2;
+    font-size: 13px;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+.ddmulti button:hover {
+    color: #42B6F3;
+}
+
+.ddmulti button:focus {
+    outline: none;
+}
+
+.dropdown-menu {
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    background-clip: padding-box;
+}
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+    margin: 0;
+    border: 0;
+    font-size: 14px;
+    vertical-align: baseline;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.dropdown-menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+}
+
+.dropdown-menu ul {
+    overflow: scroll;
+    display: block;
+    height: auto;
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.glyphicon-ok:before {
+    content: '';
+    display: block;
+    /*Make it a small rectangle so the border will create an L-shape*/
+    width: 3px;
+    height: 6px;
+    /*Add a white border on the bottom and left, creating that 'L' */
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    /*Rotate the L 45 degrees to turn it into a checkmark*/
+    transform: rotate(45deg);
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+.glyphicon-remove:before {
+    content: 'x';
+    display: block;
+    font-weight: bold;
+    width: 4px;
+    height: 5px;
+    border-width: 0 2px 2px 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+

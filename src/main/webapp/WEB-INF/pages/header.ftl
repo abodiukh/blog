@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div id="login-box" ng-show="isExpanded">
+    <div id="login-box" ng-if="isExpanded">
         <div id="inner-box">
             <div id="login">
                 <form class="login-form" ng-submit="authorize()">
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div id="sign-box" ng-show="isRegistration">
+    <div id="sign-box" ng-if="isRegistration">
         <div id="inner-box">
             <div id="sign">
                 <form class="sign-form" ng-submit="createAccount()">

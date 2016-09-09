@@ -10,13 +10,16 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/nav.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/post.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/footer.css">
-    <script src="/resources/js/angular.js"></script>
-    <script src="/resources/js/angular-sanitize.js"></script>
+    <script src="/resources/js/modules/angular.js"></script>
+    <script src="/resources/js/modules/angular-sanitize.js"></script>
+    <script src="/resources/js/modules/angularjs-dropdown-multiselect.js"></script>
+    <script src="/resources/js/modules/underscore.js"></script>
     <script src="/resources/js/blog.js"></script>
     <script src="/resources/js/controllers/login.js"></script>
     <script src="/resources/js/controllers/creator.js"></script>
     <script src="/resources/js/controllers/editor.js"></script>
     <script src="/resources/js/controllers/users.js"></script>
+    <script src="/resources/js/controllers/roles.js"></script>
 </head>
     <@body.renderBody><#nested></@body.renderBody>
 </html>

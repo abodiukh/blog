@@ -36,8 +36,9 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(final Integer id, final String name, final String role, final boolean enabled) {
+    public UserDTO(final Integer id, final String email, final String name, final String role, final boolean enabled) {
         this.id = id;
+        this.email = email;
         this.name = name;
         this.role = role;
         this.enabled = enabled;

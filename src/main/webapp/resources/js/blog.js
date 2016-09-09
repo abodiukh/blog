@@ -1,3 +1,3 @@
-var app = angular.module('blog', ['ngSanitize']);
+var app = angular.module('blog', ['ngSanitize', 'angularjs-dropdown-multiselect']);
 
 
