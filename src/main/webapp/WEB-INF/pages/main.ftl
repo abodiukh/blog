@@ -19,7 +19,6 @@
     <script src="/resources/js/controllers/creator.js"></script>
     <script src="/resources/js/controllers/editor.js"></script>
     <script src="/resources/js/controllers/users.js"></script>
-    <script src="/resources/js/controllers/roles.js"></script>
 </head>
     <@body.renderBody><#nested></@body.renderBody>
 </html>

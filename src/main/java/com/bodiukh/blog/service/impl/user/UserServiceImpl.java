@@ -1,14 +1,19 @@
 package com.bodiukh.blog.service.impl.user;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.bodiukh.blog.domain.User;
+import com.bodiukh.blog.domain.UserRight;
 import com.bodiukh.blog.domain.UserRole;
 import com.bodiukh.blog.domain.Verification;
+import com.bodiukh.blog.dto.RoleDTO;
 import com.bodiukh.blog.dto.UserDTO;
 import com.bodiukh.blog.exceptions.EmailExistsException;
 import com.bodiukh.blog.repository.UserRepository;
+import com.bodiukh.blog.repository.UserRightRepository;
 import com.bodiukh.blog.repository.UserRoleRepository;
 import com.bodiukh.blog.repository.VerificationRepository;
 import com.bodiukh.blog.service.UserService;
@@ -32,6 +37,9 @@ public class UserServiceImpl implements UserService {
     private UserRoleRepository userRoleRepository;
 
     @Autowired
+    private UserRightRepository userRightRepository;
+
+    @Autowired
     private VerificationRepository verificationRepository;
 
     @Override
@@ -46,17 +54,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        return users.stream().filter(u -> !u.getName().equals("admin")).collect(Collectors.toList());
     }
 
     @Override
-    public List<String> getRoles() {
-        List<UserRole> userRoles = userRoleRepository.findAll();
-        List<String> result = new ArrayList<>();
-        for (UserRole userRole : userRoles) {
-            result.add(userRole.getName());
+    public List<UserRole> getRoles() {
+        return userRoleRepository.findAll();
+    }
+
+    @Override
+    public List<String> getRights() {
+        return userRightRepository.findAll().stream().map(UserRight::getName).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateRole(final RoleDTO roleDTO) {
+        UserRole userRole = userRoleRepository.findByName(roleDTO.getName());
+        Set<UserRight> rightSet = new HashSet<>();
+        for (String rightName : roleDTO.getRights()) {
+            rightSet.add(userRightRepository.findByName(rightName));
         }
-        return result;
+        userRole.setRights(rightSet);
+        userRoleRepository.save(userRole);
     }
 
     @Override

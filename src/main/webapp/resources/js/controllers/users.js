@@ -4,6 +4,7 @@ app.controller('usersManager', function($rootScope, $scope, $element, $location,
     $scope.roles = {};
 
     $scope.selectedUser = {};
+    $scope.selectedRole = {};
 
     $scope.init = function() {
 
@@ -33,8 +34,27 @@ app.controller('usersManager', function($rootScope, $scope, $element, $location,
             $scope.roles = data;
         })
         .error(function(data, status, headers, config){
+        });
+
+        $http({
+            method: 'GET',
+            url: '/admin/rights',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .success(function(data, status, headers, config) {
+            $scope.rightsData = _.map(data, function(right, index) {
+                return {id: index, name: right};
+            });
+            $scope.settings = {displayProp: 'name', idProp: 'name', scrollable: false, scrollableHeight: 100};
+        })
+        .error(function(data, status, headers, config){
         })
     };
+
+    //Users
 
     $scope.getTemplate = function (user) {
         if (user.id === $scope.selectedUser.id) return 'edit';
@@ -69,5 +89,50 @@ app.controller('usersManager', function($rootScope, $scope, $element, $location,
     $scope.reset = function () {
         $scope.selectedUser = {};
     };
+
+
+    //Roles
+
+    $scope.getRoleTemplate = function (role) {
+        if (role.name === $scope.selectedRole.name) return 'editRole';
+        else return 'displayRole';
+    };
+
+    $scope.editRole = function (role) {
+        $scope.selectedRole = angular.copy(role);
+        $scope.rightsModel = _.map(role.rights, function(right) {
+            return {id: right};
+        });
+        $scope.settings = {displayProp: 'name', idProp: 'name', scrollable: false, scrollableHeight: 100};
+    };
+
+    $scope.saveRole = function (idx) {
+        console.log("Saving contact");
+
+        $http({
+             method: 'PUT',
+             url: '/admin/role',
+             data: $scope.selectedRole,
+             headers: {
+                 'Accept': 'application/json',
+                 'Content-Type': 'application/json'
+             }
+         })
+         .success(function(data, status, headers, config) {
+         })
+         .error(function(data, status, headers, config){
+         });
+
+        $scope.roles[idx] = angular.copy($scope.selectedRole);
+        $scope.resetRole();
+    };
+
+    $scope.resetRole = function () {
+        $scope.selectedRole = {};
+    };
+
+    $scope.rightsModel = [];
+    $scope.rightsData = {};
+    $scope.settings = {displayProp: 'name', idProp: 'name', scrollable: false, scrollableHeight: 100};
 
 });

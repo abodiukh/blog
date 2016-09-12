@@ -35,7 +35,9 @@
         <script type="text/ng-template" id="edit">
             <td class="email">{{user.email}}</td>
             <td>{{user.name}}</td>
-            <td><select class="input-control" ng-model="selectedUser.role" ng-options="role for role in roles"></select></td>
+            <td><select class="input-control" ng-model="selectedUser.role" required>
+                <option ng-repeat="role in roles" value="{{role.name}}">{{role.name}}</option>
+            </select></td>
             <td><input type="checkbox" class="input-control checkbox" ng-model="selectedUser.enabled" /></td>
             <td>
                 <div class="button-list">
@@ -44,15 +46,13 @@
                 <div>
             </td>
         </script>
-    </div>
-    <div class="manager" ng-controller="rolesManager" ng-init="init()">
         <h2>Roles</h2>
         <hr>
         <table>
             <thead>
             <tr>
-                <th>Role</th>
-                <th>Rights</th>
+                <th style="width: 30%">Role</th>
+                <th style="width: 30%">Rights</th>
                 <th></th>
             </tr>
             </thead>
@@ -62,27 +62,26 @@
             <tbody>
         </table>
         <script type="text/ng-template" id="displayRole">
-            <td>{{role.name}}</td>
-            <td>{{role.rights}}</td>
+            <td style="width: 30%">{{role.name}}</td>
+            <td style="width: 30%">{{role.rights.length}}</td>
             <td><div class="button-list">
                 <button class="btn-secondary" ng-click="editRole(role)">Edit</button>
             </td></div>
         </script>
         <script type="text/ng-template" id="editRole">
-            <td>{{role.name}}</td>
-            <td>
+            <td style="width: 30%">{{role.name}}</td>
+            <td style="width: 30%">
                 <div class="ddmulti" ng-dropdown-multiselect="" options="rightsData" selected-model="rightsModel"
                      extra-settings="settings" translation-texts="customTexts">
                 </div>
             </td>
             <td>
                 <div class="button-list">
-                    <button class="btn-secondary" ng-click="saveUser($index)">Save</button>
-                    <button class="btn-secondary" ng-click="reset()">Cancel</button>
+                    <button class="btn-secondary" ng-click="saveRole($index)">Save</button>
+                    <button class="btn-secondary" ng-click="resetRole()">Cancel</button>
                     <div>
             </td>
         </script>
-
     </div>
 </div>
 </@renderPage>

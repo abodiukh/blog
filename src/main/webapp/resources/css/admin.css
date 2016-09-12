@@ -7,13 +7,17 @@
 }
 
 .manager .input-control {
-    width: 70%;
+    width: 100%;
 }
 
 .manager .button-list {
     margin-bottom: auto;
     margin-top: auto;
     justify-content: flex-end;
+}
+
+.manager .ddmulti {
+    justify-content: center;
 }
 
 .manager .button-list .btn-secondary {
@@ -29,7 +33,7 @@ input[type="checkbox"] {
 }
 
 .ddmulti {
-    width: 30%
+    width: 100%
 }
 
 .ddmulti button {
@@ -86,9 +90,9 @@ input[type="checkbox"] {
     vertical-align: baseline;
 }
 
-.dropdown-menu ul {
-    overflow: scroll;
-    display: block;
+.dropdown-menu.dropdown-menu-form {
+    /*overflow: scroll;*/
+    /*display: block;*/
     height: auto;
 }
 

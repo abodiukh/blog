@@ -2,10 +2,12 @@ package com.bodiukh.blog.service;
 
 import java.util.List;
 
-import com.bodiukh.blog.domain.Verification;
-import com.bodiukh.blog.exceptions.EmailExistsException;
 import com.bodiukh.blog.domain.User;
+import com.bodiukh.blog.domain.UserRole;
+import com.bodiukh.blog.domain.Verification;
+import com.bodiukh.blog.dto.RoleDTO;
 import com.bodiukh.blog.dto.UserDTO;
+import com.bodiukh.blog.exceptions.EmailExistsException;
 
 /**
  * @author a.bodiukh
@@ -18,7 +20,11 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    List<String> getRoles();
+    List<UserRole> getRoles();
+
+    List<String> getRights();
+
+    void updateRole(RoleDTO roleDTO);
 
     User addUser(UserDTO userDTO) throws EmailExistsException;
 

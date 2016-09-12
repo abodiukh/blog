@@ -3,8 +3,12 @@ package com.bodiukh.blog.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.bodiukh.blog.domain.User;
+import com.bodiukh.blog.domain.UserRight;
+import com.bodiukh.blog.domain.UserRole;
+import com.bodiukh.blog.dto.RoleDTO;
 import com.bodiukh.blog.dto.UserDTO;
 import com.bodiukh.blog.service.UserService;
 
@@ -39,7 +43,23 @@ public class UserController {
 
     @RequestMapping(path = "/roles", method = RequestMethod.GET)
     public ResponseEntity getRoles() {
-        return new ResponseEntity<>(userService.getRoles(), HttpStatus.OK);
+        List<RoleDTO> result = new ArrayList<>();
+        for (UserRole userRole : userService.getRoles()) {
+            List<String> rights = userRole.getRights().stream().map(UserRight::getName).collect(Collectors.toList());
+            result.add(new RoleDTO(userRole.getName(), rights));
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/rights", method = RequestMethod.GET)
+    public ResponseEntity getRights() {
+        return new ResponseEntity<>(userService.getRights(), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/role", method = RequestMethod.PUT)
+    public ResponseEntity updateRole(@RequestBody RoleDTO roleDTO) {
+        userService.updateRole(roleDTO);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(path = "/user", method = RequestMethod.PUT)
