@@ -69,13 +69,13 @@
             </td></div>
         </script>
         <script type="text/ng-template" id="editRole">
-            <td style="width: 30%">{{role.name}}</td>
+            <td style="width: 30%; vertical-align: top;">{{role.name}}</td>
             <td style="width: 30%">
                 <div class="ddmulti" ng-dropdown-multiselect="" options="rightsData" selected-model="rightsModel"
                      extra-settings="settings" translation-texts="customTexts">
                 </div>
             </td>
-            <td>
+            <td style="vertical-align: top;">
                 <div class="button-list">
                     <button class="btn-secondary" ng-click="saveRole($index)">Save</button>
                     <button class="btn-secondary" ng-click="resetRole()">Cancel</button>
