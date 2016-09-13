@@ -82,7 +82,7 @@ public class LoginController {
     }
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
-    public ResponseEntity registration(@RequestBody @Valid UserDTO userDTO, WebRequest request, BindingResult result, Errors errors) {
+    public ResponseEntity registration(@Valid @RequestBody UserDTO userDTO, Errors errors, BindingResult result, WebRequest request) {
         List<String> invalidMessages = new ArrayList<>();
         if (!result.hasErrors()) {
             try {
@@ -107,7 +107,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
-    public ResponseEntity confirmRegistration(WebRequest request, @RequestParam("token") String token) {
+    public ResponseEntity confirmRegistration(@RequestParam("token") String token, WebRequest request) {
         //TODO: add localization
         Locale locale = request.getLocale();
 
