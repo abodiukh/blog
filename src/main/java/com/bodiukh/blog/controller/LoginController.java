@@ -18,6 +18,7 @@ import com.bodiukh.blog.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -36,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @author a.bodiukh
@@ -107,7 +110,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
-    public ResponseEntity confirmRegistration(@RequestParam("token") String token, WebRequest request) {
+    public ResponseEntity<?> confirmRegistration(@RequestParam("token") String token,
+                                              WebRequest request, UriComponentsBuilder uriBuilder) {
         //TODO: add localization
         Locale locale = request.getLocale();
 
@@ -127,6 +131,8 @@ public class LoginController {
         userDTO.setEnabled(true);
         userDTO.setRole(user.getRole().getName());
         userService.updateUser(userDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uriBuilder.path("/post/all").build().toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.SEE_OTHER);
     }
 }
