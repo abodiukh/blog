@@ -58,7 +58,8 @@ public class PostController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity addPost(@RequestBody @Valid PostDTO postDTO) {
-        User user = userService.getUserByName(postDTO.getAuthor());
+        String username = userDetailsService.getUserDetails().getUsername();
+        User user = userService.getUserByName(username);
         Post post = postService.addPost(postDTO, user);
         return new ResponseEntity<>(post.getId().toString(), HttpStatus.OK);
     }

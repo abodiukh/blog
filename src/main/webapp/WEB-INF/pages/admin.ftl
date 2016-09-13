@@ -8,7 +8,7 @@
     <div class="manager" ng-controller="usersManager" ng-init="init()">
         <h2>Users</h2>
         <hr>
-        <table>
+        <table class="user-table">
             <thead>
                 <tr>
                     <th>Email</th>
@@ -48,7 +48,7 @@
         </script>
         <h2>Roles</h2>
         <hr>
-        <table>
+        <table class="role-table">
             <thead>
             <tr>
                 <th style="width: 30%">Role</th>
@@ -62,20 +62,20 @@
             <tbody>
         </table>
         <script type="text/ng-template" id="displayRole">
-            <td style="width: 30%">{{role.name}}</td>
-            <td style="width: 30%">{{role.rights.length}}</td>
+            <td>{{role.name}}</td>
+            <td>{{role.rights.length}} rights</td>
             <td><div class="button-list">
                 <button class="btn-secondary" ng-click="editRole(role)">Edit</button>
             </td></div>
         </script>
         <script type="text/ng-template" id="editRole">
-            <td style="width: 30%; vertical-align: top;">{{role.name}}</td>
-            <td style="width: 30%">
+            <td>{{role.name}}</td>
+            <td>
                 <div class="ddmulti" ng-dropdown-multiselect="" options="rightsData" selected-model="rightsModel"
                      extra-settings="settings" translation-texts="customTexts">
                 </div>
             </td>
-            <td style="vertical-align: top;">
+            <td>
                 <div class="button-list">
                     <button class="btn-secondary" ng-click="saveRole($index)">Save</button>
                     <button class="btn-secondary" ng-click="resetRole()">Cancel</button>

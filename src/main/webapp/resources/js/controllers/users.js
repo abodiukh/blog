@@ -48,7 +48,6 @@ app.controller('usersManager', function($rootScope, $scope, $element, $location,
             $scope.rightsData = _.map(data, function(right, index) {
                 return {id: index, name: right};
             });
-            $scope.settings = {displayProp: 'name', idProp: 'name', scrollable: false, scrollableHeight: 100};
         })
         .error(function(data, status, headers, config){
         })
@@ -66,7 +65,7 @@ app.controller('usersManager', function($rootScope, $scope, $element, $location,
     };
 
     $scope.saveUser = function (idx) {
-        console.log("Saving contact");
+        console.log("Saving user");
 
         $http({
             method: 'PUT',
@@ -103,11 +102,13 @@ app.controller('usersManager', function($rootScope, $scope, $element, $location,
         $scope.rightsModel = _.map(role.rights, function(right) {
             return {id: right};
         });
-        $scope.settings = {displayProp: 'name', idProp: 'name', scrollable: false, scrollableHeight: 100};
     };
 
     $scope.saveRole = function (idx) {
-        console.log("Saving contact");
+        console.log("Saving role");
+        $scope.selectedRole.rights = _.map($scope.rightsModel, function(right) {
+           return right.id;
+        });
 
         $http({
              method: 'PUT',
@@ -133,6 +134,6 @@ app.controller('usersManager', function($rootScope, $scope, $element, $location,
 
     $scope.rightsModel = [];
     $scope.rightsData = {};
-    $scope.settings = {displayProp: 'name', idProp: 'name', scrollable: false, scrollableHeight: 100};
+    $scope.settings = {displayProp: 'name', idProp: 'name'};
 
 });

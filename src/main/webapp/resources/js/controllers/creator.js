@@ -5,7 +5,7 @@ app.controller('postCreator', function($rootScope, $scope, $element, $location, 
     $scope.minusIcon = false;
 
     $scope.post = {
-        author: "andrii",
+        author: "",
         title: ""
     };
 

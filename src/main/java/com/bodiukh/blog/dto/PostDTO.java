@@ -9,8 +9,6 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class PostDTO {
 
-    @NotNull
-    @NotEmpty
     private String author;
 
     @NotNull

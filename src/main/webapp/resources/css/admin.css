@@ -24,7 +24,7 @@
     width: 70px;
 }
 
-.email {
+.user-table .email {
     width: 30%;
 }
 
@@ -33,7 +33,10 @@ input[type="checkbox"] {
 }
 
 .ddmulti {
-    width: 100%
+    width: 100%;
+    position: relative;
+    overflow: visible;
+    height: 18px;
 }
 
 .ddmulti button {
@@ -91,9 +94,8 @@ input[type="checkbox"] {
 }
 
 .dropdown-menu.dropdown-menu-form {
-    /*overflow: scroll;*/
-    /*display: block;*/
     height: auto;
+    overflow: visible !important;
 }
 
 .glyphicon {
@@ -130,5 +132,15 @@ input[type="checkbox"] {
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
+}
+
+.role-table td {
+    width: 30%;
+    vertical-align: top;
+}
+
+.user-table td {
+    width: 15%;
+    vertical-align: top;
 }
 
