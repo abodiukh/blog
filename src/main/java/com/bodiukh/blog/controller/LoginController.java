@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -111,7 +110,7 @@ public class LoginController {
 
     @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
     public ResponseEntity<?> confirmRegistration(@RequestParam("token") String token,
-                                              WebRequest request, UriComponentsBuilder uriBuilder) {
+                                                 WebRequest request, UriComponentsBuilder uriBuilder) {
         //TODO: add localization
         Locale locale = request.getLocale();
 
