@@ -1,7 +1,9 @@
 package com.bodiukh.blog.service.impl;
 
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -38,19 +40,37 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean isReadonly(final String postId) {
+        EnumSet<Role> rolesByUser = userDetailsService.getRolesByUser();
         UserDetails userDetails = userDetailsService.getUserDetails();
-        return userDetails != null && !getPost(postId).getAuthor().getName().equals(userDetails.getUsername())
-                && !userDetailsService.getRolesByUser().contains(Role.ADMIN);
+        return userDetails == null || EnumSet.of(Role.READER).equals(rolesByUser)
+                || (EnumSet.of(Role.READER, Role.WRITER).containsAll(rolesByUser)
+                && !getPost(postId).getAuthor().getName().equals(userDetails.getUsername()));
+
     }
 
     @Override
     public List<Post> getPosts() {
-        return postRepository.findAll();
+        List<Post> all = postRepository.findAll();
+        EnumSet<Role> rolesByUser = userDetailsService.getRolesByUser();
+        List<Post> result = all.stream().filter(Post::isPublished).collect(Collectors.toList());
+        if (EnumSet.of(Role.READER).equals(rolesByUser)) {
+            return result;
+        }
+        if (EnumSet.of(Role.READER, Role.WRITER).containsAll(rolesByUser)) {
+            UserDetails userDetails = userDetailsService.getUserDetails();
+            if (userDetails != null) {
+                List<Post> unpublishedUserPosts =
+                        getPostsOfAuthor(userDetails.getUsername()).stream().filter(p -> !p.isPublished()).collect(Collectors.toList());
+                result.addAll(unpublishedUserPosts);
+                return result;
+            }
+        }
+        return all;
     }
 
     @Override
     public List<Post> getPostsOfAuthor(final String author) {
-        return postRepository.findByAuthor(author);
+        return postRepository.findByAuthorName(author);
     }
 
     @Override

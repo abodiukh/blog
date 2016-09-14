@@ -23,7 +23,7 @@ public class Post {
     @Column(name="title")
     private String title;
 
-    @Column(name="text")
+    @Column(name="text", columnDefinition = "LONGTEXT")
     private String text;
 
     @Column(name="published")
