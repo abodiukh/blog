@@ -61,34 +61,31 @@ public class PostController {
         String username = userDetailsService.getUserDetails().getUsername();
         User user = userService.getUserByName(username);
         Post post = postService.addPost(postDTO, user);
-        return new ResponseEntity<>(post.getId().toString(), HttpStatus.OK);
+        return new ResponseEntity<>(post.getId().toString(), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String updatePost(@PathVariable("id") String id, @RequestBody @Valid PostDTO postDTO, Model model) {
-        Post post = postService.updatePost(id, postDTO);
-        model.addAttribute("post", post);
-        return "post";
+    public ResponseEntity updatePost(@PathVariable("id") String id, @RequestBody @Valid PostDTO postDTO) {
+        postService.updatePost(id, postDTO);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/{id}/publish", method = RequestMethod.POST)
-    public String publishPost(@PathVariable("id") String id, Model model) {
-        Post post = postService.publishPost(id, true);
-        model.addAttribute("post", post);
-        return "post";
+    public ResponseEntity publishPost(@PathVariable("id") String id) {
+        postService.publishPost(id, true);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/{id}/unpublish", method = RequestMethod.POST)
-    public String unpublishPost(@PathVariable("id") String id, Model model) {
-        Post post = postService.publishPost(id, false);
-        model.addAttribute("post", post);
-        return "post";
+    public ResponseEntity unpublishPost(@PathVariable("id") String id) {
+        postService.publishPost(id, false);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity deletePost(@PathVariable("id") String id) {
         postService.removePost(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }

@@ -5,8 +5,10 @@ import java.util.List;
 import com.bodiukh.blog.domain.Post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    List<Post> findByAuthor(String author);
+    @Query("select post from Post post where post.author.name = ?1")
+    List<Post> findByAuthorName(String author);
 }

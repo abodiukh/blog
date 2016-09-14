@@ -77,7 +77,7 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
             for (GrantedAuthority role : userDetails.getAuthorities()) {
                 userRoles.add(Role.valueOf(removeDefaultRolePrefix(role.getAuthority()).toUpperCase()));
             }
-            return EnumSet.copyOf(userRoles);
+            return userRoles.isEmpty() ? EnumSet.of(Role.READER) : EnumSet.copyOf(userRoles);
         }
         return EnumSet.of(Role.READER);
     }
@@ -99,7 +99,7 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
                 userRights.add(Right.valueOf(userRight.getName().toUpperCase()));
             }
         }
-        return EnumSet.copyOf(userRights);
+        return userRights.isEmpty() ? EnumSet.of(Right.READ) : EnumSet.copyOf(userRights);
     }
 
     @Override

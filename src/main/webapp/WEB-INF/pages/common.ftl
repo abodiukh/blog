@@ -25,8 +25,8 @@
 <#if posts?has_content>
 <#list posts as post>
     <article>
-        <#if post.published>
         <div class="post">
+            <#if !post.published><p>Unpublished</p></#if>
             <p class="date">May 22, 2015</p>
             <h1><a href="/post/${post.id}">${post.title}</a></h1>
             <p><#if post.text?has_content>
@@ -39,7 +39,6 @@
             </p>
             <p><a href="/post/${post.id}" class="button">Read more</a></p>
         </div>
-        </#if>
     </article>
 </#list>
 </#if>
