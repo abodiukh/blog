@@ -3,7 +3,6 @@ package com.bodiukh.blog.service;
 import java.util.List;
 
 import com.bodiukh.blog.domain.User;
-import com.bodiukh.blog.domain.UserRole;
 import com.bodiukh.blog.domain.Verification;
 import com.bodiukh.blog.dto.RoleDTO;
 import com.bodiukh.blog.dto.UserDTO;
@@ -18,9 +17,9 @@ public interface UserService {
 
     User getUserByName(String name);
 
-    List<User> getAllUsers();
+    List<UserDTO> getUsers();
 
-    List<UserRole> getRoles();
+    List<RoleDTO> getRoles();
 
     List<String> getRights();
 

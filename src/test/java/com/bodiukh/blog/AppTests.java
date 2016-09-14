@@ -1,6 +1,6 @@
 package com.bodiukh.blog;
 
-import com.bodiukh.blog.config.SpringBootApplication;
+import com.bodiukh.blog.config.MvcConfig;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = SpringBootApplication.class)
+@ContextConfiguration(classes = MvcConfig.class)
 @Ignore
 public class AppTests {
     private MockMvc mockMvc;

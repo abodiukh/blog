@@ -1,13 +1,6 @@
 package com.bodiukh.blog.controller;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.bodiukh.blog.domain.User;
-import com.bodiukh.blog.domain.UserRight;
-import com.bodiukh.blog.domain.UserRole;
 import com.bodiukh.blog.dto.RoleDTO;
 import com.bodiukh.blog.dto.UserDTO;
 import com.bodiukh.blog.service.UserService;
@@ -33,22 +26,12 @@ public class UserController {
 
     @RequestMapping(path = "/users", method = RequestMethod.GET)
     public ResponseEntity getUsers() {
-        List<User> users = userService.getAllUsers();
-        List<UserDTO> result = new ArrayList<>();
-        for (User user : users) {
-            result.add(new UserDTO(user.getId(), user.getEmail(), user.getName(), user.getRole().getName(), user.isEnabled()));
-        }
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/roles", method = RequestMethod.GET)
     public ResponseEntity getRoles() {
-        List<RoleDTO> result = new ArrayList<>();
-        for (UserRole userRole : userService.getRoles()) {
-            List<String> rights = userRole.getRights().stream().map(UserRight::getName).collect(Collectors.toList());
-            result.add(new RoleDTO(userRole.getName(), rights));
-        }
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(userService.getRoles(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/rights", method = RequestMethod.GET)

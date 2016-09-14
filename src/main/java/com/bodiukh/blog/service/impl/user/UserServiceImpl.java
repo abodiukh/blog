@@ -1,9 +1,12 @@
 package com.bodiukh.blog.service.impl.user;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.annotation.Resource;
 
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.domain.UserRight;
@@ -30,16 +33,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
+    @Resource
     private UserRepository userRepository;
 
-    @Autowired
+    @Resource
     private UserRoleRepository userRoleRepository;
 
-    @Autowired
+    @Resource
     private UserRightRepository userRightRepository;
 
-    @Autowired
+    @Resource
     private VerificationRepository verificationRepository;
 
     @Override
@@ -53,14 +56,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream().filter(u -> !u.getName().equals("admin")).collect(Collectors.toList());
+    public List<UserDTO> getUsers() {
+        List<User> users = userRepository.findAll().stream()
+                .filter(u -> !u.getName().equals("admin")).collect(Collectors.toList());
+        List<UserDTO> result = new ArrayList<>();
+        for (User user : users) {
+            result.add(new UserDTO(user.getId(), user.getEmail(), user.getName(), user.getRole().getName(), user.isEnabled()));
+        }
+        return result;
     }
 
     @Override
-    public List<UserRole> getRoles() {
-        return userRoleRepository.findAll();
+    public List<RoleDTO> getRoles() {
+        List<UserRole> roles = userRoleRepository.findAll();
+        List<RoleDTO> result = new ArrayList<>();
+        for (UserRole userRole : roles) {
+            List<String> rights = userRole.getRights().stream().map(UserRight::getName).collect(Collectors.toList());
+            result.add(new RoleDTO(userRole.getName(), rights));
+        }
+        return result;
     }
 
     @Override

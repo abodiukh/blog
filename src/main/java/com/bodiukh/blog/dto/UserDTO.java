@@ -7,6 +7,7 @@ import com.bodiukh.blog.annotations.ValidEmail;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 @PasswordMatches
 public class UserDTO {
 

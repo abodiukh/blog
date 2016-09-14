@@ -1,5 +1,6 @@
 package com.bodiukh.blog.config;
 
+import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -9,7 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
-@Component
+@WebListener
 public class SessionListener implements HttpSessionListener, ApplicationContextAware {
 
     @Override

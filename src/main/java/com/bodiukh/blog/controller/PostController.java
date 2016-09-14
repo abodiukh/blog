@@ -52,7 +52,7 @@ public class PostController {
     public String getPost(@PathVariable("id") String id, Model model) {
         Post post = postService.getPost(id);
         model.addAttribute("post", post);
-        model.addAttribute("readonly", postService.isReadonly(post));
+        model.addAttribute("readonly", postService.isReadonly(id));
         return "post";
     }
 

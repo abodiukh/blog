@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.domain.UserRight;
 import com.bodiukh.blog.domain.UserRole;
@@ -35,14 +37,11 @@ public class UserDetailsServiceImpl implements ExtendedUserDetailsService {
 
     private String defaultRolePrefix = "ROLE_";
 
-    @Autowired
+    @Resource
     private UserRepository userRepository;
 
-    @Autowired
+    @Resource
     private UserRoleRepository userRoleRepository;
-
-    @Autowired
-    private PasswordEncoder encoder;
 
     @Transactional(readOnly = true)
     @Override

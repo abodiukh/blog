@@ -3,6 +3,8 @@ package com.bodiukh.blog.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import com.bodiukh.blog.domain.Post;
 import com.bodiukh.blog.domain.User;
 import com.bodiukh.blog.dto.PostDTO;
@@ -26,36 +28,32 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private ExtendedUserDetailsService userDetailsService;
 
-    @Autowired
+    @Resource
     private PostRepository postRepository;
 
     @Override
-    @Transactional
     public Post getPost(final String id) {
         return postRepository.findOne(new Integer(id));
     }
 
     @Override
-    public boolean isReadonly(final Post post) {
+    public boolean isReadonly(final String postId) {
         UserDetails userDetails = userDetailsService.getUserDetails();
-        return userDetails != null && !post.getAuthor().getName().equals(userDetails.getUsername())
+        return userDetails != null && !getPost(postId).getAuthor().getName().equals(userDetails.getUsername())
                 && !userDetailsService.getRolesByUser().contains(Role.ADMIN);
     }
 
     @Override
-    @Transactional
     public List<Post> getPosts() {
         return postRepository.findAll();
     }
 
     @Override
-    @Transactional
     public List<Post> getPostsOfAuthor(final String author) {
         return postRepository.findByAuthor(author);
     }
 
     @Override
-    @Transactional
     public Post addPost(final PostDTO postDTO, final User user) {
         Post post = new Post();
         post.setAuthor(user);
@@ -65,7 +63,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional
     public Post updatePost(final String id, PostDTO postDTO) {
         Post post = getPost(id);
         post.setTitle(postDTO.getTitle());
@@ -85,7 +82,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional
     public void removePost(final String id) {
         postRepository.delete(new Integer(id));
     }

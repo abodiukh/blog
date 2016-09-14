@@ -15,7 +15,7 @@ public interface PostService {
 
     Post getPost(String id);
 
-    boolean isReadonly(Post post);
+    boolean isReadonly(String postId);
 
     List<Post> getPosts();
 
