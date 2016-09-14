@@ -16,7 +16,7 @@
                     <button id="publish" ng-click="publishPost()" class="btn-secondary" type="submit">Publish</button>
                     <button id="unpublish" ng-click="unpublishPost()" class="btn-secondary" type="submit">Unpublish</button>
                 </#if>
-                <#if permissions?seq_contains('remove')>
+                <#if permissions?seq_contains('delete')>
                     <button id="delete" ng-click="deletePost()" class="btn-secondary" type="submit">Delete</button>
                 </#if>
             </div>

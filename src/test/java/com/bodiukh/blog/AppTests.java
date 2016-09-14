@@ -1,9 +1,8 @@
 package com.bodiukh.blog;
 
-import com.bodiukh.blog.config.MvcConfig;
+import com.bodiukh.blog.config.RootConfig;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = MvcConfig.class)
-@Ignore
+@ContextConfiguration(classes = RootConfig.class)
 public class AppTests {
     private MockMvc mockMvc;
 
