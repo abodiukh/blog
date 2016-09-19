@@ -1,10 +1,9 @@
-package com.bodiukh.blog.service.impl.user;
+package com.bodiukh.blog.service.impl;
 
 import com.bodiukh.blog.service.ExtendedUserDetailsService;
-import com.bodiukh.blog.service.UserService;
+import com.bodiukh.blog.service.impl.user.Right;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service

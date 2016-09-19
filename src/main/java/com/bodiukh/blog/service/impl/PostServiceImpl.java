@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author a.bodiukh
  */
-@Service("postService")
+@Service
 @Transactional
 public class PostServiceImpl implements PostService {
 
