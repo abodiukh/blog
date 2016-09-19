@@ -26,7 +26,7 @@ public class Post {
     @Column(name="text", columnDefinition = "LONGTEXT")
     private String text;
 
-    @Column(name="published")
+    @Column(name="published", columnDefinition = "TINYINT", length = 1)
     private boolean published;
 
     @Column(name = "date", columnDefinition="DATETIME")

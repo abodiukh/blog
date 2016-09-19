@@ -31,7 +31,7 @@ public class User {
     @Column(name = "password", length = 60)
     private String password;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled", columnDefinition = "TINYINT", length = 1)
     private boolean enabled;
 
     @ManyToOne(fetch = FetchType.LAZY)
