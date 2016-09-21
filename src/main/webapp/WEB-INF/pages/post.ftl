@@ -21,15 +21,17 @@
                 </#if>
             </div>
         </#if>
-        <div class="post" ng-show="viewMode">
-            <h1><a href="/post/${post.id}">${post.title}</a></h1>
-            <p><#if post.text?has_content>${post.text}</#if></p>
-        </div>
-        <div class="edit-post" ng-show="editMode">
-            <label for="inputTitle" class="input-field">Title</label>
-            <input type="text" name="input" id="inputTitle" class="form-control"
-                   placeholder="Title" required autofocus ng-model="postData.title">
-            <textarea ng-model="postData.text"></textarea>
-        </div>
+        <#if post??>
+            <div class="post" ng-show="viewMode">
+                <h1><a href="/post/${post.id}">${post.title}</a></h1>
+                <p><#if post.text?has_content>${post.text}</#if></p>
+            </div>
+            <div class="edit-post" ng-show="editMode">
+                <label for="inputTitle" class="input-field">Title</label>
+                <input type="text" name="input" id="inputTitle" class="form-control"
+                       placeholder="Title" required autofocus ng-model="postData.title">
+                <textarea ng-model="postData.text"></textarea>
+            </div>
+        </#if>
     </div>
 </@renderPage>
